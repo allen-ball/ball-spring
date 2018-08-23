@@ -1,0 +1,16 @@
+2018-08-23  Allen D. Ball  <ball@sol.local>
+
+	* Initial writing: Moved MysqldComponent and MysqldConfiguration
+	from ball.tv to ball.spring.mysqld.
+
+2018-07-18  Allen D. Ball  <ball@sol.local>
+
+	* MySQL Connector/J does not support local UNIX domain socket so
+	configure embedded mysqld process with --port=${mysqld.port}.
+
+2018-07-17  Allen D. Ball  <ball@sol.local>
+
+	* src/main/java/ball/tv/MysqldComponent.java,
+	src/main/java/ball/tv/MysqldConfiguration.java:
+	Initial writing.
+

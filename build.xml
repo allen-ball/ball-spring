@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:aether="antlib:org.eclipse.aether.ant"
+         xmlns:artifact="antlib:org.apache.maven.artifact.ant"
+         xmlns:ball="antlib:ball.util.ant"
+         xmlns:ivy="antlib:org.apache.ivy.ant"
+         xmlns:spring-boot="antlib:org.springframework.boot.ant"
+         name="ball.spring" basedir="." default="jar">
+
+  <description>
+    ball.spring
+    --------------------------
+    Reusable Spring Components
+
+    $Id$
+  </description>
+
+  <aether:resolve>
+    <dependencies>
+      <dependency coords="ball:parent:2.0:xml:compile"/>
+    </dependencies>
+    <properties/>
+  </aether:resolve>
+  <import file="${ball:parent:xml}"/>
+
+</project>
