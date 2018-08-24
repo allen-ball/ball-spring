@@ -1,5 +1,8 @@
 2018-08-24  Allen D. Ball  <ball@sol.local>
 
+	* Moved cldmbx.PasswordEncoderImpl to
+	ball.spring.MD5CryptPasswordEncoder.
+
 	* Moved EntityManagerFactoryConfiguration from ball.tv
 	to ball.spring.mysqld.
 
