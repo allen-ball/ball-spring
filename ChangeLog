@@ -1,3 +1,8 @@
+2018-08-24  Allen D. Ball  <ball@sol.local>
+
+	* Moved EntityManagerFactoryConfiguration from ball.tv
+	to ball.spring.mysqld.
+
 2018-08-23  Allen D. Ball  <ball@sol.local>
 
 	* Initial writing: Moved MysqldComponent and MysqldConfiguration
