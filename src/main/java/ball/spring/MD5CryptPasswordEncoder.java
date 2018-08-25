@@ -5,7 +5,6 @@
  */
 package ball.spring;
 
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -16,6 +15,8 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Dovecot compatible {@link PasswordEncoder} implementation.  MD5-CRYPT
@@ -55,8 +56,6 @@ public class MD5CryptPasswordEncoder extends DelegatingPasswordEncoder {
     public String toString() { return super.toString(); }
 
     private static class NoCrypt implements PasswordEncoder {
-        protected static final Charset UTF8 = Charset.forName("UTF-8");
-
         private static final String SALT =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         private static final String ITOA64 =
@@ -124,7 +123,7 @@ public class MD5CryptPasswordEncoder extends DelegatingPasswordEncoder {
             }
 
             return (MAGIC + salt + "$"
-                    + encode(raw.getBytes(UTF8), salt.getBytes(UTF8)));
+                    + encode(raw.getBytes(UTF_8), salt.getBytes(UTF_8)));
         }
 
         private String encode(byte[] password, byte[] salt) {
@@ -135,7 +134,7 @@ public class MD5CryptPasswordEncoder extends DelegatingPasswordEncoder {
                 MessageDigest ctx1 = MessageDigest.getInstance(MD5);
 
                 ctx.update(password);
-                ctx.update(MAGIC.getBytes(UTF8));
+                ctx.update(MAGIC.getBytes(UTF_8));
                 ctx.update(salt);
 
                 ctx1.update(password);
