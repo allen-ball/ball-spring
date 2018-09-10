@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!-- $Id$ -->
+<html th:with="CSS = ${new String[] { '/css/bootstrap.css' }},
+               JS =
+                 ${new String[] {
+                     '/js/jquery.js', '/js/popper.js', '/js/bootstrap.js'
+                   }},
+               SHIMS =
+                 ${new String[] {
+                     'https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js',
+                     'https://oss.maxcdn.com/respond/1.4.2/respond.min.js'
+                   }}"
+      xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <th:block th:if="${CSS != null}" th:with="stylesheets = ${CSS}"
+              th:insert="~{${#execInfo.templateName + '/stylesheets'}}"/>
+    <th:block th:if="${css != null}" th:with="stylesheets = ${css}"
+              th:insert="~{${#execInfo.templateName + '/stylesheets'}}"/>
+<!--[if lt IE 9]>
+    <th:block th:if="${SHIMS != null}" th:with="scripts = ${SHIMS}"
+              th:insert="~{${#execInfo.templateName + '/scripts'}}"/>
+  <![endif]-->
+  </head>
+  <body>
+    <nav class="navbar navbar-dark fixed-top bg-dark text-white">
+      <div class="container">
+        <a class="navbar-brand" th:href="@{/}" th:text="${brand ?: 'Home'}"/>
+        <div class="navbar-expand">
+          <th:block th:if="${template != null}">
+            <th:block th:insert="~{${'/' + template + '/menu'}}"/>
+          </th:block>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <th:block th:if="${exception != null}">
+        <th:block th:insert="~{${#execInfo.templateName + '/exception'}}"/>
+      </th:block>
+      <th:block th:unless="${exception != null}">
+        <th:block th:switch="${#request.servletPath}">
+          <th:block th:case="'/error'"
+                    th:insert="~{${#execInfo.templateName + '/error'}}"/>
+          <th:block th:case="*">
+            <th:block th:if="${template != null}">
+              <th:block th:insert="~{${'/' + template + '/body'}}"/>
+            </th:block>
+          </th:block>
+        </th:block>
+      </th:block>
+    </div>
+    <th:block th:insert="~{${#execInfo.templateName + '/footer'}}"/>
+    <th:block th:if="${JS != null}" th:with="scripts = ${JS}"
+              th:insert="~{${#execInfo.templateName + '/scripts'}}"/>
+    <th:block th:if="${js != null}" th:with="scripts = ${js}"
+              th:insert="~{${#execInfo.templateName + '/scripts'}}"/>
+  </body>
+</html>
