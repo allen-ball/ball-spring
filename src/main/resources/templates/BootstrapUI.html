@@ -30,7 +30,7 @@
         <a class="navbar-brand" th:href="@{/}" th:text="${brand ?: 'Home'}"/>
         <div class="navbar-expand">
           <th:block th:if="${template != null}">
-            <th:block th:insert="~{${'/' + template + '/menu'}}"/>
+            <th:block th:insert="~{${template + '/menu'}}"/>
           </th:block>
         </div>
       </div>
@@ -45,7 +45,7 @@
                     th:insert="~{${#execInfo.templateName + '/error'}}"/>
           <th:block th:case="*">
             <th:block th:if="${template != null}">
-              <th:block th:insert="~{${'/' + template + '/body'}}"/>
+              <th:block th:insert="~{${template + '/body'}}"/>
             </th:block>
           </th:block>
         </th:block>
