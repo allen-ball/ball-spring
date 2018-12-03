@@ -2,8 +2,8 @@
   "name": "frontend",
   "private": true,
   "dependencies": {
+    "html5-boilerplate": "^6.1.0",
     "bootstrap": "^4.1.3",
-    "jquery": "^3.3.1",
     "popper.js": "^1.14.6",
     "vendor-copy": "^2.0.0"
   },
@@ -12,6 +12,34 @@
     "postinstall": "vendor-copy"
   },
   "vendorCopy": [
+    {
+      "from": "node_modules/html5-boilerplate/dist/browserconfig.xml",
+      "to": "../../../target/classes/static/browserconfig.xml"
+    },
+    {
+      "from": "node_modules/html5-boilerplate/dist/favicon.ico",
+      "to": "../../../target/classes/static/favicon.ico"
+    },
+    {
+      "from": "node_modules/html5-boilerplate/dist/icon.png",
+      "to": "../../../target/classes/static/icon.png"
+    },
+    {
+      "from": "node_modules/html5-boilerplate/dist/css",
+      "to": "../../../target/classes/static/css"
+    },
+    {
+      "from": "node_modules/html5-boilerplate/dist/js/main.js",
+      "to": "../../../target/classes/static/js/main.js"
+    },
+    {
+      "from": "node_modules/html5-boilerplate/dist/js/plugins.js",
+      "to": "../../../target/classes/static/js/plugins.js"
+    },
+    {
+      "from": "node_modules/html5-boilerplate/dist/js/vendor",
+      "to": "../../../target/classes/static/js/vendor"
+    },
     {
       "from": "node_modules/bootstrap/dist/css/bootstrap.css",
       "to": "../../../target/classes/static/css/bootstrap.css"
@@ -23,10 +51,6 @@
     {
       "from": "node_modules/popper.js/dist/popper.js",
       "to": "../../../target/classes/static/js/popper.js"
-    },
-    {
-      "from": "node_modules/jquery/dist/jquery.js",
-      "to": "../../../target/classes/static/js/jquery.js"
     }
   ]
 }
