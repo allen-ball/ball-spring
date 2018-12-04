@@ -13,18 +13,6 @@
   },
   "vendorCopy": [
     {
-      "from": "node_modules/html5-boilerplate/dist/browserconfig.xml",
-      "to": "../../../target/classes/static/browserconfig.xml"
-    },
-    {
-      "from": "node_modules/html5-boilerplate/dist/favicon.ico",
-      "to": "../../../target/classes/static/favicon.ico"
-    },
-    {
-      "from": "node_modules/html5-boilerplate/dist/icon.png",
-      "to": "../../../target/classes/static/icon.png"
-    },
-    {
       "from": "node_modules/html5-boilerplate/dist/css",
       "to": "../../../target/classes/static/css"
     },
