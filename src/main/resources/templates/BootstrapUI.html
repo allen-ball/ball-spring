@@ -66,13 +66,8 @@ experience and security.
     <th:block th:if="${js != null}" th:with="scripts = ${js}"
               th:insert="~{${#execInfo.templateName + '/scripts'}}"/>
 
-    <th:block th:if="${false}">
-      <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-      <script>
-        window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
-        ga('create', 'UA-XXXXX-Y', 'auto'); ga('send', 'pageview')
-      </script>
-      <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-    </th:block>
+    <th:block th:if="${@environment.getProperty('gtid') != null}"
+              th:with="gtid = ${@environment.getProperty('gtid')}"
+              th:insert="~{${#execInfo.templateName + '/gtag'}}"/>
   </body>
 </html>
