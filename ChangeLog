@@ -1,3 +1,8 @@
+2018-12-13  Allen D. Ball  <ball@sol.local>
+
+	* src/main/resources/templates/BootstrapUI/adsbygoogle.html:
+	Added support for Google AdSense.
+
 2018-12-12  Allen D. Ball  <ball@sol.local>
 
 	* Added Google Analytics support.

@@ -17,6 +17,10 @@
 
     <th:block th:if="${css != null}" th:with="stylesheets = ${css}"
               th:insert="~{${#execInfo.templateName + '/stylesheets'}}"/>
+
+    <th:block th:if="${@environment.getProperty('gaid') != null}"
+              th:with="gaid = ${@environment.getProperty('gaid')}"
+              th:insert="~{${#execInfo.templateName + '/adsbygoogle'}}"/>
   </head>
   <body>
   <!--[if lte IE 9]>
