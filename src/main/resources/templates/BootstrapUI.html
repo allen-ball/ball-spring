@@ -14,7 +14,8 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}"/>
     <link rel="stylesheet" href="/css/main.css"/>
 
-    <th:block th:if="${css != null}" th:with="stylesheets = ${css}"
+    <th:block th:if="${@environment.getProperty('css') != null}"
+              th:with="stylesheets = ${@environment.getProperty('css')}"
               th:insert="~{${#execInfo.templateName + '/stylesheets'}}"/>
 
     <th:block th:if="${@environment.getProperty('gaid') != null}"
@@ -32,7 +33,8 @@ experience and security.
 
     <nav class="navbar navbar-dark fixed-top bg-dark text-white">
       <div class="container">
-        <a class="navbar-brand" th:href="@{/}" th:text="${brand ?: 'Home'}"/>
+        <a class="navbar-brand" th:href="@{/}"
+           th:text="${@environment.getProperty('application.brand') ?: 'Home'}"/>
         <div class="navbar-expand">
           <th:block th:if="${template != null}">
             <th:block th:insert="~{${template + '/menu'}}"/>
@@ -63,7 +65,8 @@ experience and security.
     <script src="/js/plugins.js"></script>
     <script src="/js/main.js"></script>
 
-    <th:block th:if="${js != null}" th:with="scripts = ${js}"
+    <th:block th:if="${@environment.getProperty('js') != null}"
+              th:with="scripts = ${@environment.getProperty('js')}"
               th:insert="~{${#execInfo.templateName + '/scripts'}}"/>
 
     <th:block th:if="${@environment.getProperty('gtid') != null}"

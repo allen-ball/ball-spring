@@ -1,5 +1,8 @@
 2018-12-20  Allen D. Ball  <ball@sol.local>
 
+	* src/main/resources/templates/BootstrapUI.html:
+	Get stylesheets and javascript from application environment.
+
 	* Provide Bootstrap through webjars artifacts.  Removed
 	src/main/frontend (and copied the remaining artifacts from
 	html5-boilerplate).

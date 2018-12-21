@@ -1,3 +1,4 @@
 <!-- $Id$ -->
-<link th:each="stylesheet : ${stylesheets}"
-      rel="stylesheet" type="text/css" th:href="@{${stylesheet}}"/>
+<th:block th:each="stylesheet : ${#strings.arraySplit(stylesheets, ',')}">
+  <link rel="stylesheet" th:href="@{${stylesheet.trim()}}"/>
+</th:block>

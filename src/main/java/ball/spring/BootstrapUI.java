@@ -37,15 +37,6 @@ public abstract class BootstrapUI {
      */
     protected BootstrapUI() { }
 
-    @ModelAttribute("css")
-    public String[] css() { return new String[] { }; }
-
-    @ModelAttribute("js")
-    public String[] js() { return new String[] { }; }
-
-    @ModelAttribute("brand")
-    public String brand() { return null; }
-
     @ModelAttribute("template")
     public abstract String template();
 
@@ -68,9 +59,6 @@ public abstract class BootstrapUI {
     }
 
     private void populate(Model model, Exception exception) {
-        model.addAttribute("css", css());
-        model.addAttribute("js", js());
-        model.addAttribute("brand", brand());
         model.addAttribute("template", template());
 
         model.addAttribute("exception", exception);
