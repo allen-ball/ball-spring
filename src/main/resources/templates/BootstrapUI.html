@@ -11,7 +11,7 @@
     <link rel="manifest" href="/site.webmanifest"/>
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" th:href="\@{/webjars/bootstrap/@webjar.bootstrap.version@/css/bootstrap.css}"/>
     <link rel="stylesheet" href="/css/normalize.css"/>
     <link rel="stylesheet" href="/css/main.css"/>
 
@@ -60,10 +60,8 @@ experience and security.
     <th:block th:insert="~{${#execInfo.templateName + '/footer'}}"/>
 
     <script src="/js/vendor/modernizr-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="/js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
-    <script src="/js/popper.js"></script>
-    <script src="/js/bootstrap.js"></script>
+    <script th:src="\@{/webjars/jquery/@webjar.jquery.version@/jquery.js}"></script>
+    <script th:src="\@{/webjars/bootstrap/@webjar.bootstrap.version@/js/bootstrap.js}"></script>
     <script src="/js/plugins.js"></script>
     <script src="/js/main.js"></script>
 
