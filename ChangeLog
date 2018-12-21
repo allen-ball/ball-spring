@@ -1,6 +1,8 @@
 2018-12-20  Allen D. Ball  <ball@sol.local>
 
-	* Provide Bootstrap through webjars artifacts.
+	* Provide Bootstrap through webjars artifacts.  Removed
+	src/main/frontend (and copied the remaining artifacts from
+	html5-boilerplate).
 
 2018-12-13  Allen D. Ball  <ball@sol.local>
 

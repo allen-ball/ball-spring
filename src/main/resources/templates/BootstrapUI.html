@@ -11,8 +11,7 @@
     <link rel="manifest" href="/site.webmanifest"/>
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-    <link rel="stylesheet" th:href="\@{/webjars/bootstrap/@webjar.bootstrap.version@/css/bootstrap.css}"/>
-    <link rel="stylesheet" href="/css/normalize.css"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}"/>
     <link rel="stylesheet" href="/css/main.css"/>
 
     <th:block th:if="${css != null}" th:with="stylesheets = ${css}"
@@ -59,9 +58,8 @@ experience and security.
     </div>
     <th:block th:insert="~{${#execInfo.templateName + '/footer'}}"/>
 
-    <script src="/js/vendor/modernizr-3.6.0.min.js"></script>
-    <script th:src="\@{/webjars/jquery/@webjar.jquery.version@/jquery.js}"></script>
-    <script th:src="\@{/webjars/bootstrap/@webjar.bootstrap.version@/js/bootstrap.js}"></script>
+    <script th:src="@{/webjars/jquery/jquery.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.js}"></script>
     <script src="/js/plugins.js"></script>
     <script src="/js/main.js"></script>
 
