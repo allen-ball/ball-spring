@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <!-- $Id$ -->
-<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+<html class="no-js" xmlns:th="http://www.thymeleaf.org"
+      th:with="brand = ${@environment.getProperty('application.brand')},
+               stylesheets = ${@environment.getProperty('css')},
+               scripts = ${@environment.getProperty('js')},
+               gaid = ${@environment.getProperty('gaid')},
+               gtid = ${@environment.getProperty('gtid')}">
   <head>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <title></title>
@@ -12,15 +17,23 @@
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/dist/css/bootstrap.css}"/>
-    <link rel="stylesheet" href="/css/main.css"/>
 
-    <th:block th:if="${@environment.getProperty('css') != null}"
-              th:with="stylesheets = ${@environment.getProperty('css')}"
-              th:insert="~{${#execInfo.templateName + '/stylesheets'}}"/>
+    <th:block th:if="${stylesheets != null}">
+      <th:block th:each="css : ${#strings.arraySplit(stylesheets, ',')}">
+        <link rel="stylesheet" th:href="@{${css.trim()}}"/>
+      </th:block>
+    </th:block>
 
-    <th:block th:if="${@environment.getProperty('gaid') != null}"
-              th:with="gaid = ${@environment.getProperty('gaid')}"
-              th:insert="~{${#execInfo.templateName + '/adsbygoogle'}}"/>
+    <th:block th:if="${gaid != null}">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+                    th:text="''"/>
+      <script th:inline="javascript">
+        (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: [[${gaid}]],
+        enable_page_level_ads: true
+        });
+      </script>
+    </th:block>
   </head>
   <body>
   <!--[if lte IE 9]>
@@ -33,8 +46,7 @@ experience and security.
 
     <nav class="navbar navbar-dark fixed-top bg-dark text-white">
       <div class="container">
-        <a class="navbar-brand" th:href="@{/}"
-           th:text="${@environment.getProperty('application.brand') ?: 'Home'}"/>
+        <a class="navbar-brand" th:href="@{/}" th:text="${brand ?: 'Home'}"/>
         <div class="navbar-expand">
           <th:block th:if="${template != null}">
             <th:block th:insert="~{${template + '/menu'}}"/>
@@ -63,14 +75,23 @@ experience and security.
     <script th:src="@{/webjars/jquery/dist/jquery.js}"></script>
     <script th:src="@{/webjars/bootstrap/dist/js/bootstrap.js}"></script>
     <script src="/js/plugins.js"></script>
-    <script src="/js/main.js"></script>
 
-    <th:block th:if="${@environment.getProperty('js') != null}"
-              th:with="scripts = ${@environment.getProperty('js')}"
-              th:insert="~{${#execInfo.templateName + '/scripts'}}"/>
+    <th:block th:if="${scripts != null}">
+      <th:block th:each="script : ${#strings.arraySplit(scripts, ',')}">
+        <script th:src="@{${script.trim()}}" th:text="''"/>
+      </th:block>
+    </th:block>
 
-    <th:block th:if="${@environment.getProperty('gtid') != null}"
-              th:with="gtid = ${@environment.getProperty('gtid')}"
-              th:insert="~{${#execInfo.templateName + '/gtag'}}"/>
+    <th:block th:if="${gtid != null}">
+      <script async th:src="${'https://www.googletagmanager.com/gtag/js?id=' + gtid}"
+                    th:text="''"/>
+      <script th:inline="javascript">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', [[${gtid}]]);
+      </script>
+    </th:block>
   </body>
 </html>

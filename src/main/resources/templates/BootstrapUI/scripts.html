@@ -1,4 +1,0 @@
-<!-- $Id$ -->
-<th:block th:each="script : ${#strings.arraySplit(scripts, ',')}">
-  <script th:src="@{${script.trim()}}" th:text="''"/>
-</th:block>
