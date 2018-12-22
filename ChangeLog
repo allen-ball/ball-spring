@@ -1,3 +1,9 @@
+2018-12-21  Allen D. Ball  <ball@sol.local>
+
+	* src/main/java/ball/spring/BootstrapUI.java:
+	Added @ModelAttribute("javascript") and
+	@RequestMapping("/webjars.js").
+
 2018-12-20  Allen D. Ball  <ball@sol.local>
 
 	* src/main/resources/templates/BootstrapUI.html:

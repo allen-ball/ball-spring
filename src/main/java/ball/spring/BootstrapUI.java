@@ -12,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.webjars.RequireJS;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -39,6 +41,15 @@ public abstract class BootstrapUI {
 
     @ModelAttribute("template")
     public abstract String template();
+
+    @ModelAttribute("javascript")
+    public String javascript() {
+        return RequireJS.getSetupJavaScript("/webjars/");
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/webjars.js", produces = "application/javascript")
+    public String wbejarsjs() { return javascript(); }
 
     @ExceptionHandler
     @ResponseStatus(value = NOT_FOUND)
