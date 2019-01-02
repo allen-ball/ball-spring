@@ -1,14 +1,14 @@
 /*
  * $Id$
  *
- * Copyright 2018 Allen D. Ball.  All rights reserved.
+ * Copyright 2018, 2019 Allen D. Ball.  All rights reserved.
  */
 package ball.spring.mysqld;
 
-import ball.io.IOUtil;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
+import java.nio.file.Files;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import org.apache.logging.log4j.LogManager;
@@ -64,9 +64,9 @@ public class MysqldConfiguration {
     public Process mysqld() throws IOException {
         synchronized (this) {
             if (mysqld == null) {
-                IOUtil.mkdirs(home);
-                IOUtil.mkdirs(datadir.getParentFile());
-                IOUtil.mkdirs(console.getParentFile());
+                Files.createDirectories(home.toPath());
+                Files.createDirectories(datadir.toPath().getParent());
+                Files.createDirectories(console.toPath().getParent());
 
                 if (! datadir.exists()) {
                     try {
