@@ -1,10 +1,12 @@
 /*
  * $Id$
  *
- * Copyright 2018 Allen D. Ball.  All rights reserved.
+ * Copyright 2018, 2019 Allen D. Ball.  All rights reserved.
  */
 package ball.spring.mysqld;
 
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +26,11 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  */
 @Component
 @ConditionalOnBean(name = { "mysqld" })
+@NoArgsConstructor @ToString
 public class MysqldComponent {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Autowired private Process mysqld;
-
-    /**
-     * Sole constructor.
-     */
-    public MysqldComponent() { super(); }
 
     @Scheduled(fixedRate = 15 * 1000)
     public void run() {
@@ -47,7 +45,4 @@ public class MysqldComponent {
             }
         }
     }
-
-    @Override
-    public String toString() { return super.toString(); }
 }

@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 /**
  * {@code mysqld} {@link Configuration}.  A {@code mysqld} process is
@@ -31,7 +32,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  * @version $Revision$
  */
 @Configuration
-@ConditionalOnProperty(name = "mysqld.home", havingValue = "")
+@ConditionalOnProperty(name = "mysqld.home", havingValue = EMPTY)
 public class MysqldConfiguration {
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -92,10 +93,6 @@ public class MysqldConfiguration {
                                            "--general-log",
                                            "--log-output=TABLE",
                                            "--explicit-defaults-for-timestamp",
-                                        /*
-                                         * "--plugin-load-add=auth_socket.so",
-                                         * "--auth_socket=FORCE_PLUS_PERMANENT",
-                                         */
                                            "--datadir=" + datadir.getAbsolutePath(),
                                            "--port=" + port,
                                            "--socket=" + socket.getAbsolutePath())
@@ -116,6 +113,19 @@ public class MysqldConfiguration {
                         } else {
                             throw new IllegalStateException("mysqld not started");
                         }
+                    }
+
+                    try {
+                        new ProcessBuilder("mysql_upgrade",
+                                           "--socket=" + socket.getAbsolutePath(),
+                                           "--user=root")
+                            .directory(home)
+                            .inheritIO()
+                            .redirectOutput(Redirect.appendTo(console))
+                            .redirectErrorStream(true)
+                            .start()
+                            .waitFor();
+                    } catch (InterruptedException exception) {
                     }
                 } else {
                     throw new IllegalStateException("mysqld datadir does not exist");

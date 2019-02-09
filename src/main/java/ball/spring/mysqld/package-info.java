@@ -1,5 +1,5 @@
 /**
- * Embedded {@link.uri https://www.mysql.com/ MySQL} server.
+ * Embedded {@link.uri https://www.mysql.com/ target=newtab MySQL} server.
  *
  * @author {@link.uri mailto:ball@iprotium.com Allen D. Ball}
  */
