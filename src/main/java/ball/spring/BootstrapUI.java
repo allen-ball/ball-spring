@@ -1,11 +1,13 @@
 /*
  * $Id$
  *
- * Copyright 2018 Allen D. Ball.  All rights reserved.
+ * Copyright 2018, 2019 Allen D. Ball.  All rights reserved.
  */
 package ball.spring;
 
 import java.util.NoSuchElementException;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.webjars.RequireJS;
 
+import static lombok.AccessLevel.PROTECTED;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -26,6 +29,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
  * @author {@link.uri mailto:ball@iprotium.com Allen D. Ball}
  * @version $Revision$
  */
+@NoArgsConstructor(access = PROTECTED) @ToString
 public abstract class BootstrapUI {
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -33,11 +37,6 @@ public abstract class BootstrapUI {
      * View name for this template.
      */
     protected static final String VIEW = BootstrapUI.class.getSimpleName();
-
-    /**
-     * Sole constructor.
-     */
-    protected BootstrapUI() { }
 
     @ModelAttribute("template")
     public abstract String template();
@@ -71,10 +70,6 @@ public abstract class BootstrapUI {
 
     private void populate(Model model, Exception exception) {
         model.addAttribute("template", template());
-
         model.addAttribute("exception", exception);
     }
-
-    @Override
-    public String toString() { return super.toString(); }
 }
