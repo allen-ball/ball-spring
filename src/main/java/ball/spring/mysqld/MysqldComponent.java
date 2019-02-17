@@ -19,6 +19,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 /**
  * {@code mysqld} {@link Component}
  *
+ * <p>{@injected.fields}</p>
+ *
  * @see MysqldConfiguration
  *
  * @author {@link.uri mailto:ball@iprotium.com Allen D. Ball}

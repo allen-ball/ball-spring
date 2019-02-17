@@ -25,8 +25,8 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
  * {@code mysqld} {@link Configuration}.  A {@code mysqld} process is
  * started if the {@code mysqld.home} application property is set.  In
  * addition, a port must be specified with the {@code mysqld.port} property.
- * Please see the {@link Value} annotations on the protected members of this
- * class for other configurable values and their defaults.
+ *
+ * <p>{@injected.fields}</p>
  *
  * @author {@link.uri mailto:ball@iprotium.com Allen D. Ball}
  * @version $Revision$
@@ -37,19 +37,19 @@ public class MysqldConfiguration {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Value("${mysqld.home}")
-    protected File home;
+    private File home;
 
     @Value("${mysqld.datadir:${mysqld.home}/data}")
-    protected File datadir;
+    private File datadir;
 
     @Value("${mysqld.port}")
-    protected Integer port;
+    private Integer port;
 
     @Value("${mysqld.socket:${mysqld.home}/socket}")
-    protected File socket;
+    private File socket;
 
     @Value("${logging.path}/mysqld.log")
-    protected File console;
+    private File console;
 
     private Process mysqld = null;
 
