@@ -17,7 +17,7 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
  * implementation.  See
  * {@link.uri https://docs.spring.io/spring-boot/docs/current/reference/html/howto-data-access.html#howto-configure-a-component-that-is-used-by-JPA target=newtab Configure a Component that is Used by JPA}.
  *
- * <p>{@injected.fields}</p>
+ * {@injected.fields}
  *
  * @author {@link.uri mailto:ball@iprotium.com Allen D. Ball}
  * @version $Revision$

@@ -19,7 +19,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 /**
  * {@code mysqld} {@link Component}
  *
- * <p>{@injected.fields}</p>
+ * {@injected.fields}
  *
  * @see MysqldConfiguration
  *

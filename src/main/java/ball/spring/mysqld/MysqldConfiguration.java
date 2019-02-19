@@ -26,7 +26,7 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
  * started if the {@code mysqld.home} application property is set.  In
  * addition, a port must be specified with the {@code mysqld.port} property.
  *
- * <p>{@injected.fields}</p>
+ * {@injected.fields}
  *
  * @author {@link.uri mailto:ball@iprotium.com Allen D. Ball}
  * @version $Revision$
