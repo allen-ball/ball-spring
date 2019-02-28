@@ -1,3 +1,8 @@
+/*
+ * $Id$
+ *
+ * Copyright 2019 Allen D. Ball.  All rights reserved.
+ */
 /**
  * Embedded {@link.uri https://www.mysql.com/ target=newtab MySQL} server.
  *
