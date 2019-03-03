@@ -23,7 +23,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * reference implementation available at
  * {@link.uri https://github.com/dovecot/core/blob/master/src/auth/password-scheme-md5crypt.c target=newtab password-scheme-md5crypt.c}.
  *
- * @author {@link.uri mailto:ball@iprotium.com Allen D. Ball}
+ * @author {@link.uri mailto:ball@hcf.dev Allen D. Ball}
  * @version $Revision$
  */
 @Service

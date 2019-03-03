@@ -19,7 +19,7 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
  *
  * {@injected.fields}
  *
- * @author {@link.uri mailto:ball@iprotium.com Allen D. Ball}
+ * @author {@link.uri mailto:ball@hcf.dev Allen D. Ball}
  * @version $Revision$
  */
 @Configuration

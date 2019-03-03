@@ -6,7 +6,7 @@
 /**
  * Reusable {@link.uri https://spring.io/ Srping} components.
  *
- * @author {@link.uri mailto:ball@iprotium.com Allen D. Ball}
+ * @author {@link.uri mailto:ball@hcf.dev Allen D. Ball}
  */
 @Manifest.Section
 package ball.spring;

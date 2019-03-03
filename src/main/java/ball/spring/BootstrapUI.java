@@ -26,7 +26,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
  * Bootstrap UI {@link org.springframework.stereotype.Controller} abstract
  * base class
  *
- * @author {@link.uri mailto:ball@iprotium.com Allen D. Ball}
+ * @author {@link.uri mailto:ball@hcf.dev Allen D. Ball}
  * @version $Revision$
  */
 @NoArgsConstructor(access = PROTECTED) @ToString
