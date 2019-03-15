@@ -36,15 +36,15 @@
     </th:block>
   </head>
   <body>
-  <!--[if lte IE 9]>
+    <!--[if lte IE 9]>
 <p class="browserupgrade">
 You are using an <strong>outdated</strong> browser. Please
 <a href="https://browsehappy.com/">upgrade your browser</a> to improve your
 experience and security.
 </p>
-  <![endif]-->
+    <![endif]-->
 
-    <nav class="navbar navbar-dark fixed-top bg-dark text-white">
+    <header class="navbar navbar-dark fixed-top bg-dark text-white">
       <div class="container">
         <a class="navbar-brand" th:href="@{/}" th:text="${brand ?: 'Home'}"/>
         <div class="navbar-expand">
@@ -53,23 +53,25 @@ experience and security.
           </th:block>
         </div>
       </div>
-    </nav>
-    <div class="container">
-      <th:block th:if="${exception != null}">
-        <th:block th:insert="~{${#execInfo.templateName + '/exception'}}"/>
-      </th:block>
-      <th:block th:unless="${exception != null}">
-        <th:block th:switch="${#request.servletPath}">
-          <th:block th:case="'/error'"
-                    th:insert="~{${#execInfo.templateName + '/error'}}"/>
-          <th:block th:case="*">
-            <th:block th:if="${template != null}">
-              <th:block th:insert="~{${template + '/body'}}"/>
+    </header>
+    <main>
+      <div class="container">
+        <th:block th:if="${exception != null}">
+          <th:block th:insert="~{${#execInfo.templateName + '/exception'}}"/>
+        </th:block>
+        <th:block th:unless="${exception != null}">
+          <th:block th:switch="${#request.servletPath}">
+            <th:block th:case="'/error'"
+                      th:insert="~{${#execInfo.templateName + '/error'}}"/>
+            <th:block th:case="*">
+              <th:block th:if="${template != null}">
+                <th:block th:insert="~{${template + '/main'}}"/>
+              </th:block>
             </th:block>
           </th:block>
         </th:block>
-      </th:block>
-    </div>
+      </div>
+    </main>
     <th:block th:insert="~{${#execInfo.templateName + '/footer'}}"/>
 
     <script th:src="@{/webjars/jquery/dist/jquery.js}"></script>
