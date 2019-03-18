@@ -8,6 +8,10 @@
                gtid = ${@environment.getProperty('gtid')}">
   <head>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+<!--/*
+<script th:src="@{/webjars.js}" th:text="''"/>
+<script th:attr="data-main=@{/js/app.js}" th:src="@{/webjars/requirejs/require.js}" th:text="''"/>
+*/-->
     <title></title>
     <meta name="description" content=""/>
     <meta name="viewport"
@@ -76,7 +80,7 @@ experience and security.
 
     <script th:src="@{/webjars/jquery/dist/jquery.js}"></script>
     <script th:src="@{/webjars/bootstrap/dist/js/bootstrap.js}"></script>
-    <script src="/js/plugins.js"></script>
+    <script th:src="@{/js/plugins.js}" th:text="''"/>
 
     <th:block th:if="${scripts != null}">
       <th:block th:each="script : ${#strings.arraySplit(scripts, ',')}">

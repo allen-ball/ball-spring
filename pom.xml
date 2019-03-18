@@ -69,5 +69,9 @@
       <groupId>org.webjars.npm</groupId>
       <artifactId>popper.js</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.webjars.npm</groupId>
+      <artifactId>requirejs</artifactId>
+    </dependency>
   </dependencies>
 </project>
