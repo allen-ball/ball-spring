@@ -8,10 +8,7 @@
                gtid = ${@environment.getProperty('gtid')}">
   <head>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
-<!--/*
-<script th:src="@{/webjars.js}" th:text="''"/>
-<script th:attr="data-main=@{/js/app.js}" th:src="@{/webjars/requirejs/require.js}" th:text="''"/>
-*/-->
+
     <title></title>
     <meta name="description" content=""/>
     <meta name="viewport"
@@ -20,7 +17,7 @@
     <link rel="manifest" href="/site.webmanifest"/>
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/dist/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}"/>
 
     <th:block th:if="${stylesheets != null}">
       <th:block th:each="css : ${#strings.arraySplit(stylesheets, ',')}">
@@ -58,28 +55,29 @@ experience and security.
         </div>
       </div>
     </header>
-    <main>
-      <div class="container">
-        <th:block th:if="${exception != null}">
-          <th:block th:insert="~{${#execInfo.templateName + '/exception'}}"/>
-        </th:block>
-        <th:block th:unless="${exception != null}">
-          <th:block th:switch="${#request.servletPath}">
-            <th:block th:case="'/error'"
-                      th:insert="~{${#execInfo.templateName + '/error'}}"/>
-            <th:block th:case="*">
-              <th:block th:if="${template != null}">
-                <th:block th:insert="~{${template + '/main'}}"/>
-              </th:block>
+    <main class="container">
+      <th:block th:if="${exception != null}">
+        <th:block th:insert="~{${#execInfo.templateName + '/exception'}}"/>
+      </th:block>
+      <th:block th:unless="${exception != null}">
+        <th:block th:switch="${#request.servletPath}">
+          <th:block th:case="'/error'"
+                    th:insert="~{${#execInfo.templateName + '/error'}}"/>
+          <th:block th:case="*">
+            <th:block th:if="${template != null}">
+              <th:block th:insert="~{${template + '/main'}}"/>
             </th:block>
           </th:block>
         </th:block>
-      </div>
+      </th:block>
     </main>
     <th:block th:insert="~{${#execInfo.templateName + '/footer'}}"/>
-
-    <script th:src="@{/webjars/jquery/dist/jquery.js}"></script>
-    <script th:src="@{/webjars/bootstrap/dist/js/bootstrap.js}"></script>
+<!--/*
+<script th:src="@{/webjars.js}" th:text="''"/>
+<script data-main="/js/app" th:src="@{/webjars/requirejs/require.min.js}" th:text="''"/>
+*/-->
+    <script th:src="@{/webjars/jquery/jquery.js}" th:text="''"/>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.js}" th:text="''"/>
     <script th:src="@{/js/plugins.js}" th:text="''"/>
 
     <th:block th:if="${scripts != null}">
