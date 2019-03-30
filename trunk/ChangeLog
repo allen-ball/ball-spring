@@ -1,0 +1,81 @@
+2019-03-30  Allen D. Ball  <ball@sol.local>
+
+	* Released version 1.0.1: Fixed footer buttons.
+
+2019-03-27  Allen D. Ball  <ball@sol.local>
+
+	* pom.xml: Released version 1.0.0.
+
+2019-02-09  Allen D. Ball  <ball@sol.local>
+
+	* src/main/java/ball/spring/mysqld/MysqldComponent.java:
+	Run mysql_upgrade.
+
+2018-12-21  Allen D. Ball  <ball@sol.local>
+
+	* src/main/java/ball/spring/BootstrapUI.java:
+	Added @ModelAttribute("javascript") and
+	@RequestMapping("/webjars.js").
+
+2018-12-20  Allen D. Ball  <ball@sol.local>
+
+	* src/main/resources/templates/BootstrapUI.html:
+	Get stylesheets and javascript from application environment.
+
+	* Provide Bootstrap through webjars artifacts.  Removed
+	src/main/frontend (and copied the remaining artifacts from
+	html5-boilerplate).
+
+2018-12-13  Allen D. Ball  <ball@sol.local>
+
+	* src/main/resources/templates/BootstrapUI/adsbygoogle.html:
+	Added support for Google AdSense.
+
+2018-12-12  Allen D. Ball  <ball@sol.local>
+
+	* Added Google Analytics support.
+
+2018-12-06  Allen D. Ball  <ball@sol.local>
+
+	* Added Ball Java Jar assets.
+
+2018-12-04  Allen D. Ball  <ball@sol.local>
+
+	* src/main/resources/templates/BootstrapUI.html:
+	Fixed JS and CSS asset href paths.
+
+2018-12-03  Allen D. Ball  <ball@sol.local>
+
+	* Integerated HTML5 Boilerplate (https://html5boilerplate.com/).
+
+2018-09-09  Allen D. Ball  <ball@sol.local>
+
+	* src/main/java/ball/spring/BootstrapUI.java:
+	Created Controller abstract base class with associated template;
+	implementations should provide menu.html and body.html templates
+	and override/implement the @ModelAttribute methods as necessary.
+
+2018-08-24  Allen D. Ball  <ball@sol.local>
+
+	* Moved cldmbx.PasswordEncoderImpl to
+	ball.spring.MD5CryptPasswordEncoder.
+
+	* Moved EntityManagerFactoryConfiguration from ball.tv
+	to ball.spring.mysqld.
+
+2018-08-23  Allen D. Ball  <ball@sol.local>
+
+	* Initial writing: Moved MysqldComponent and MysqldConfiguration
+	from ball.tv to ball.spring.mysqld.
+
+2018-07-18  Allen D. Ball  <ball@sol.local>
+
+	* MySQL Connector/J does not support local UNIX domain socket so
+	configure embedded mysqld process with --port=${mysqld.port}.
+
+2018-07-17  Allen D. Ball  <ball@sol.local>
+
+	* src/main/java/ball/tv/MysqldComponent.java,
+	src/main/java/ball/tv/MysqldConfiguration.java:
+	Initial writing.
+
