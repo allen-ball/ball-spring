@@ -6,20 +6,20 @@
         <p class="col-sm" th:text="${#request.servletPath}"/>
       </div>
       <div class="col-sm-3 text-center">
-        <a class="btn"
+        <a class="btn btn-link"
            th:classappend="${page == null} ? disabled"
            th:href="@{''(page=${1})}"
            th:text="'|<'"/>
-        <a class="btn"
+        <a class="btn btn-link"
            th:classappend="${! (page != null && page.hasPrevious())} ? disabled"
            th:href="@{''(page=${(page != null) ? (page.number + 0) : 1})}"
            th:text="'<'"/>
         <th:block th:text="${page != null ? (page.number + 1) : '#'}"/>
-        <a class="btn"
+        <a class="btn btn-link"
            th:classappend="${! (page != null && page.hasNext())} ? disabled"
            th:href="@{''(page=${(page != null) ? (page.number + 2) : 1})}"
            th:text="'>'"/>
-        <a class="btn"
+        <a class="btn btn-link"
            th:classappend="${page == null} ? disabled"
            th:href="@{''(page=${page?.totalPages > 0 ? page.totalPages : 1})}"
            th:text="'>|'"/>
