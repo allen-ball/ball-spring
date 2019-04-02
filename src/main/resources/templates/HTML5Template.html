@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!--/* $Id$ */-->
-<html class="no-js" xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
+      th:xmlns="@{http://www.w3.org/1999/xhtml}"
       th:with="brand = ${@environment.getProperty('application.brand')},
                stylesheets = ${@environment.getProperty('css')},
                scripts = ${@environment.getProperty('js')},
@@ -17,7 +18,6 @@
     <link rel="manifest" href="/site.webmanifest"/>
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}"/>
 
     <th:block th:if="${stylesheets != null}">
       <th:block th:each="css : ${#strings.arraySplit(stylesheets, ',')}">
@@ -55,7 +55,7 @@ experience and security.
         </div>
       </div>
     </header>
-    <main class="container">
+    <main>
       <th:block th:if="${exception != null}">
         <th:block th:insert="~{${#execInfo.templateName + '/exception'}}"/>
       </th:block>
@@ -76,8 +76,6 @@ experience and security.
 <script th:src="@{/webjars.js}" th:text="''"/>
 <script data-main="/js/app" th:src="@{/webjars/requirejs/require.min.js}" th:text="''"/>
 */-->
-    <script th:src="@{/webjars/jquery/jquery.js}" th:text="''"/>
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.js}" th:text="''"/>
     <script th:src="@{/js/plugins.js}" th:text="''"/>
 
     <th:block th:if="${scripts != null}">

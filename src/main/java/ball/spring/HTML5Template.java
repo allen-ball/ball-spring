@@ -30,13 +30,13 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
  * @version $Revision$
  */
 @NoArgsConstructor(access = PROTECTED) @ToString
-public abstract class BootstrapUI {
+public abstract class HTML5Template {
     private static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * View name for this template.
      */
-    protected static final String VIEW = BootstrapUI.class.getSimpleName();
+    protected static final String VIEW = HTML5Template.class.getSimpleName();
 
     @ModelAttribute("template")
     public abstract String template();
