@@ -46,14 +46,12 @@ experience and security.
     <![endif]-->
 
     <header class="navbar navbar-dark fixed-top bg-dark text-white">
-      <div class="container">
-        <a class="navbar-brand" th:href="@{/}" th:text="${brand ?: 'Home'}"/>
-        <div class="navbar-expand">
-          <th:block th:if="${template != null}">
-            <th:block th:insert="~{${template + '/menu'}}"/>
-          </th:block>
-        </div>
-      </div>
+      <nav>
+        <a th:href="@{/}" th:text="${brand ?: 'Home'}"/>
+        <th:block th:if="${template != null}">
+          <th:block th:insert="~{${template + '/menu'}}"/>
+        </th:block>
+      </nav>
     </header>
     <main>
       <th:block th:if="${exception != null}">
