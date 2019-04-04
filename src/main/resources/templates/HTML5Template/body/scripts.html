@@ -1,0 +1,7 @@
+<!--/* $Id$ */-->
+<th:block th:with="scripts = ${@environment.getProperty('js')}">
+  <th:block th:if="${scripts != null}">
+    <script th:each="script : ${#strings.arraySplit(scripts, ',')}"
+            th:src="@{${script.trim()}}" th:text="''"/>
+  </th:block>
+</th:block>

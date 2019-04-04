@@ -1,0 +1,9 @@
+<!--/* $Id$ */-->
+<script async th:src="${'https://www.googletagmanager.com/gtag/js?id=' + gtid}"
+              th:text="''"/>
+<script th:inline="javascript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', [[${gtid}]]);
+</script>

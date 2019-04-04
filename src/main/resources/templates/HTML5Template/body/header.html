@@ -1,0 +1,10 @@
+<!--/* $Id$ */-->
+<header th:with="brand = ${@environment.getProperty('application.brand')}"
+        class="navbar navbar-dark fixed-top bg-dark text-white">
+  <nav>
+    <a th:href="@{/}" th:text="${brand ?: 'Home'}"/>
+    <th:block th:if="${template != null}">
+      <th:block th:insert="~{${template + '/menu'}}"/>
+    </th:block>
+  </nav>
+</header>

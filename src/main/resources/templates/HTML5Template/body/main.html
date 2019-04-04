@@ -1,0 +1,17 @@
+<!--/* $Id$ */-->
+<main>
+  <th:block th:if="${exception != null}">
+    <th:block th:insert="~{${#execInfo.templateName + '/exception'}}"/>
+  </th:block>
+  <th:block th:unless="${exception != null}">
+    <th:block th:switch="${#request.servletPath}">
+      <th:block th:case="'/error'"
+                th:insert="~{${#execInfo.templateName + '/error'}}"/>
+      <th:block th:case="*">
+        <th:block th:if="${template != null}">
+          <th:block th:insert="~{${template + '/main'}}"/>
+        </th:block>
+      </th:block>
+    </th:block>
+  </th:block>
+</main>
