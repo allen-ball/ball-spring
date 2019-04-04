@@ -3,7 +3,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
       th:xmlns="@{http://www.w3.org/1999/xhtml}"
       th:with="brand = ${@environment.getProperty('application.brand')},
-               stylesheets = ${@environment.getProperty('css')},
                scripts = ${@environment.getProperty('js')},
                gaid = ${@environment.getProperty('gaid')},
                gtid = ${@environment.getProperty('gtid')}">
@@ -19,11 +18,7 @@
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 
-    <th:block th:if="${stylesheets != null}">
-      <th:block th:each="css : ${#strings.arraySplit(stylesheets, ',')}">
-        <link rel="stylesheet" th:href="@{${css.trim()}}"/>
-      </th:block>
-    </th:block>
+    <link rel="stylesheet" href="/css/style.css"/>
 
     <th:block th:if="${gaid != null}">
       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
