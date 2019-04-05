@@ -1,6 +1,6 @@
 $Id$
 
-* src/main/resources/templates/BootstrapUI/footer.html:
+* src/main/resources/templates/HTML5Template/body/footer.html:
   First and last page links do not preserve URI query parameters.
 
 

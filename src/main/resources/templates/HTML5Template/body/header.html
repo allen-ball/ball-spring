@@ -2,8 +2,7 @@
 <header class="navbar navbar-dark fixed-top bg-dark text-white">
   <nav th:with="brand = ${@environment.getProperty('application.brand')}">
     <a th:href="@{/}" th:text="${brand ?: 'Home'}"/>
-    <th:block th:if="${template != null}">
-      <th:block th:insert="~{${template + '/menu'}}"/>
-    </th:block>
+    <th:block th:if="${template != null}"
+              th:insert="~{${template + '/menu'}}"/>
   </nav>
 </header>
