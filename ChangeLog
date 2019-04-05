@@ -1,13 +1,13 @@
+2019-04-05  Allen D. Ball  <ball@sol.local>
+
+	* Interim check-in:
+	BootstrapUI -> HTML5Template; continued the process of removing
+	Bootstrap-specific mark-up from templates.
+
 2019-04-04  Allen D. Ball  <ball@sol.local>
 
 	* src/main/resources/templates/HTML5Template.html:
 	Modularized into component resources.
-
-2019-04-03  Allen D. Ball  <ball@sol.local>
-
-	* Interim check-in:
-	BootstrapUI -> HTML5Template; started the process of removing
-	Bootstrap-specific mark-up from templates.
 
 2019-04-01  Allen D. Ball  <ball@sol.local>
 
