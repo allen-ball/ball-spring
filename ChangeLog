@@ -1,5 +1,7 @@
 2019-04-06  Allen D. Ball  <ball@sol.local>
 
+	* pom.xml: Released version 1.1.0.
+
 	* Re-factored HTML5Template to provide *only* semantic HTML5.
 
 2019-04-04  Allen D. Ball  <ball@sol.local>
