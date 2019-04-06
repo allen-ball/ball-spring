@@ -8,8 +8,7 @@
       <th:block th:case="'/error'"
                 th:insert="~{${#execInfo.templateName + '/error'}}"/>
       <th:block th:case="*">
-        <th:block th:if="${template != null}"
-                  th:insert="~{${template + '/main'}}"/>
+        <th:block th:if="${template != null}" th:insert="~{${template}}"/>
       </th:block>
     </th:block>
   </th:block>

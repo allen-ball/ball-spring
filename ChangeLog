@@ -1,8 +1,6 @@
-2019-04-05  Allen D. Ball  <ball@sol.local>
+2019-04-06  Allen D. Ball  <ball@sol.local>
 
-	* Interim check-in:
-	BootstrapUI -> HTML5Template; continued the process of removing
-	Bootstrap-specific mark-up from templates.
+	* Re-factored HTML5Template to provide *only* semantic HTML5.
 
 2019-04-04  Allen D. Ball  <ball@sol.local>
 

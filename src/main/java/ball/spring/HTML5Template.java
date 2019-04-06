@@ -23,7 +23,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 /**
- * Bootstrap UI {@link org.springframework.stereotype.Controller} abstract
+ * HTML5 template {@link org.springframework.stereotype.Controller} abstract
  * base class
  *
  * @author {@link.uri mailto:ball@hcf.dev Allen D. Ball}
@@ -39,16 +39,15 @@ public abstract class HTML5Template {
     protected static final String VIEW = HTML5Template.class.getSimpleName();
 
     @ModelAttribute("template")
-    public abstract String template();
-
-    @ModelAttribute("javascript")
-    public String javascript() {
-        return RequireJS.getSetupJavaScript("/webjars/");
+    public String template() {
+        return getClass().getPackage().getName().replaceAll("[.]", "-");
     }
 
     @ResponseBody
     @RequestMapping(value = "/webjars.js", produces = "application/javascript")
-    public String wbejarsjs() { return javascript(); }
+    public String wbejarsjs() {
+        return RequireJS.getSetupJavaScript("/webjars/");
+    }
 
     @ExceptionHandler
     @ResponseStatus(value = NOT_FOUND)
