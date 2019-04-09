@@ -12,6 +12,5 @@ experience and security.
   <th:block th:insert="~{${#execInfo.templateName + '/aside'}}"/>
   <th:block th:insert="~{${#execInfo.templateName + '/footer'}}"/>
   <th:block th:insert="~{${#execInfo.templateName + '/scripts'}}"/>
-  <th:block th:if="${gtid != null}"
-            th:insert="~{${#execInfo.templateName + '/gtid'}}"/>
+  <th:block th:if="${gtid != null}" th:insert="~{google-analytics}"/>
 </body>

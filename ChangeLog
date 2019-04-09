@@ -1,5 +1,9 @@
 2019-04-09  Allen D. Ball  <ball@sol.local>
 
+	* src/main/resources/templates/google-adsense.html,
+	src/main/resources/templates/google-analytics.html:
+	Separated from (but still include in) HTML5Template.
+
 	* pom.xml: Started development of 1.2-SNAPSHOT.
 
 2019-04-06  Allen D. Ball  <ball@sol.local>
