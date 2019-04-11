@@ -1,3 +1,8 @@
+2019-04-11  Allen D. Ball  <ball@sol.local>
+
+	* src/main/java/ball/spring/HTML5Template.java:
+	Set SpringResourceTemplateResolver.setUseDecoupledLogic(true).
+
 2019-04-09  Allen D. Ball  <ball@sol.local>
 
 	* src/main/resources/templates/google-adsense.html,
