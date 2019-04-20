@@ -1,5 +1,0 @@
-<!--/* $Id$ */-->
-<nav th:with="brand = ${@environment.getProperty('application.brand')}">
-  <a th:href="@{/}" th:text="${brand ?: 'Home'}"/>
-  <th:block th:insert="~{${#execInfo.templateName + '/ul'}}"/>
-</nav>
