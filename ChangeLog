@@ -1,9 +1,10 @@
-2019-04-20  Allen D. Ball  <ball@sol.local>
+2019-04-22  Allen D. Ball  <ball@sol.local>
 
 	* Compacted HTML5Template.html into a single template.
-	HTML5Template subclass implementors must provide
-	head/stylesheets.html, head/scripts.html, body/header/nav/ul.html,
-	and body/scripts.html.
+	HTML5Template subclass implementors may optionally provide
+	::head/meta, ::head/link, ::head/script, ::body/header[0],
+	::body/main[0], ::body/aside[0], ::body/footer[0], and
+	::body/script.
 
 2019-04-11  Allen D. Ball  <ball@sol.local>
 

@@ -6,83 +6,41 @@
     <title th:if="${title != null}" th:text="${title}"/>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"/>
+    <meta th:replace="~{${template}::head/meta} ?: ~{}"/>
     <link rel="manifest" href="/site.webmanifest"/>
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-    <th:block th:insert="~{${#execInfo.templateName + '/head/stylesheets'}}"/>
-    <th:block th:insert="~{${#execInfo.templateName + '/head/scripts'}}"/>
+    <link th:replace="~{${template}::head/link} ?: ~{}"/>
+    <script th:replace="~{${template}::head/script} ?: ~{}"/>
     <th:block th:if="${gaid != null}" th:insert="~{google-adsense}"/>
   </head>
   <body th:with="gtid = ${@environment.getProperty('gtid')}">
-<!--[if lte IE 9]>
-<p class="browserupgrade">
-You are using an <strong>outdated</strong> browser. Please
-<a href="https://browsehappy.com/">upgrade your browser</a> to improve your
-experience and security.
-</p>
-<![endif]-->
-    <header>
-      <nav th:with="brand = ${@environment.getProperty('application.brand')}">
-        <a th:href="@{/}" th:text="${brand ?: 'Home'}"/>
-        <th:block th:insert="~{${#execInfo.templateName + '/body/header/nav/ul'}}"/>
-      </nav>
-    </header>
-    <main>
-      <th:block th:if="${exception != null}">
-        <div>
-          <section>
-            <h1 th:text="${#request.getAttribute('javax.servlet.error.request_uri')}"/>
-            <p th:text="${exception.message}"/>
-          </section>
-        </div>
+    <!--[if lte IE 9]>
+      <p class="browserupgrade" th:utext="#{browserupgrade}"/>
+    <![endif]-->
+    <header th:replace="~{${template}::body/header[0]} ?: ~{}"/>
+    <th:block th:unless="${#ctx.containsVariable('exception')}"
+              th:switch="${#request.servletPath}">
+      <div th:case="'/error'">
+        <section>
+          <h1 th:text="${#request.getAttribute('javax.servlet.error.request_uri')}"/>
+          <h2 th:text="${#request.getAttribute('javax.servlet.error.status_code')}"/>
+          <p th:text="${#request.getAttribute('javax.servlet.error.message')}"/>
+        </section>
+      </div>
+      <th:block th:case="*">
+        <main th:replace="~{${template}::body/main[0]} ?: ~{}"/>
+        <aside th:replace="~{${template}::body/aside[0]} ?: ~{}"/>
       </th:block>
-      <th:block th:unless="${exception != null}">
-        <th:block th:switch="${#request.servletPath}">
-          <th:block th:case="'/error'">
-            <div>
-              <section>
-                <h1 th:text="${#request.getAttribute('javax.servlet.error.request_uri')}"/>
-                <h1 th:text="${#request.getAttribute('javax.servlet.error.status_code')}"/>
-                <p th:text="${#request.getAttribute('javax.servlet.error.message')}"/>
-              </section>
-            </div>
-          </th:block>
-          <th:block th:case="*">
-            <th:block th:if="${template != null}">
-              <th:block th:insert="~{${template}}"/>
-            </th:block>
-          </th:block>
-        </th:block>
-      </th:block>
-    </main>
-    <!--/* <aside>...</aside> */-->
-    <footer>
-      <nav>
-        <span th:text="${#request.servletPath}"/>
-        <span>
-          <a th:classappend="${page == null} ? disabled"
-             th:href="@{''(page=${1})}"
-             th:text="'|<'"/>
-          <a th:classappend="${! (page != null && page.hasPrevious())} ? disabled"
-             th:href="@{''(page=${(page != null) ? (page.number + 0) : 1})}"
-             th:text="'<'"/>
-          <th:block th:text="${page != null ? (page.number + 1) : '#'}"/>
-          <a th:classappend="${! (page != null && page.hasNext())} ? disabled"
-             th:href="@{''(page=${(page != null) ? (page.number + 2) : 1})}"
-             th:text="'>'"/>
-          <a th:classappend="${page == null} ? disabled"
-             th:href="@{''(page=${page?.totalPages > 0 ? page.totalPages : 1})}"
-             th:text="'>|'"/>
-        </span>
-        <span>
-          <th:block sec:authorize="isAuthenticated()">
-            <span sec:authentication="name"/>
-            <span sec:authentication="authorities"/>
-          </th:block>
-        </span>
-      </nav>
-    </footer>
-    <th:block th:insert="~{${#execInfo.templateName + '/body/scripts'}}"/>
+    </th:block>
+    <div th:if="${#ctx.containsVariable('exception')}">
+      <section>
+        <h1 th:text="${#request.getAttribute('javax.servlet.error.request_uri')}"/>
+        <p th:text="${exception.message}"/>
+      </section>
+    </div>
+    <footer th:replace="~{${template}::body/footer[0]} ?: ~{}"/>
+    <script th:replace="~{${template}::body/script} ?: ~{}"/>
     <th:block th:if="${gtid != null}" th:insert="~{google-analytics}"/>
   </body>
 </html>
