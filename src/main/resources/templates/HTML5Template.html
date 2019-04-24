@@ -11,6 +11,7 @@
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
     <link th:replace="~{${template}::head/link} ?: ~{}"/>
+    <style th:replace="~{${template}::head/style} ?: ~{}"/>
     <script th:replace="~{${template}::head/script} ?: ~{}"/>
     <th:block th:if="${gaid != null}" th:insert="~{google-adsense}"/>
   </head>
