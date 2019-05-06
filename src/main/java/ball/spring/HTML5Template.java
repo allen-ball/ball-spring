@@ -61,7 +61,8 @@ public abstract class HTML5Template {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/webjars.js", produces = "application/javascript")
+    @RequestMapping(value = "/js/webjars.js",
+                    produces = "application/javascript")
     public String wbejarsjs() {
         return RequireJS.getSetupJavaScript("/webjars/");
     }
