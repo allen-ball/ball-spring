@@ -1,5 +1,7 @@
 2019-06-20  Allen D. Ball  <ball@sol.local>
 
+	* etc/mysqld-run.sh: Initial writing.
+
 	* src/main/java/ball/spring/mysqld/MysqldConfiguration.java:
 	Added support for MySQL defaults files.
 	Removed support for mysql_upgrade which is now deprecated.
