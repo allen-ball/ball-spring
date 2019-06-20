@@ -42,6 +42,9 @@ public class MysqldConfiguration {
     @Value("${mysqld.home}")
     private File home;
 
+    @Value("${mysqld.defaults.file:${mysqld.home}/my.cnf}")
+    private File defaults;
+
     @Value("${mysqld.datadir:${mysqld.home}/data}")
     private File datadir;
 
@@ -67,12 +70,22 @@ public class MysqldConfiguration {
                 Files.createDirectories(datadir.toPath().getParent());
                 Files.createDirectories(console.toPath().getParent());
 
+                String defaultsArg = "--no-defaults";
+
+                if (defaults.exists()) {
+                    defaultsArg =
+                        "--defaults-file=" + defaults.getAbsolutePath();
+                }
+
+                String datadirArg = "--datadir=" + datadir.getAbsolutePath();
+                String socketArg = "--socket=" + socket.getAbsolutePath();
+                String portArg = "--port=" + port;
+
                 if (! datadir.exists()) {
                     try {
                         new ProcessBuilder("mysqld",
-                                           "--initialize-insecure",
-                                           "--explicit-defaults-for-timestamp",
-                                           "--datadir=" + datadir.getAbsolutePath())
+                                           defaultsArg, datadirArg,
+                                           "--initialize-insecure")
                             .directory(home)
                             .inheritIO()
                             .redirectOutput(Redirect.to(console))
@@ -88,12 +101,8 @@ public class MysqldConfiguration {
 
                     mysqld =
                         new ProcessBuilder("mysqld",
-                                           "--general-log",
-                                           "--log-output=TABLE",
-                                           "--explicit-defaults-for-timestamp",
-                                           "--datadir=" + datadir.getAbsolutePath(),
-                                           "--port=" + port,
-                                           "--socket=" + socket.getAbsolutePath())
+                                           defaultsArg, datadirArg,
+                                           socketArg, portArg)
                         .directory(home)
                         .inheritIO()
                         .redirectOutput(Redirect.appendTo(console))
@@ -115,7 +124,7 @@ public class MysqldConfiguration {
 
                     try {
                         new ProcessBuilder("mysql_upgrade",
-                                           "--socket=" + socket.getAbsolutePath(),
+                                           defaultsArg, socketArg,
                                            "--user=root")
                             .directory(home)
                             .inheritIO()
