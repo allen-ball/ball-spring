@@ -19,6 +19,14 @@ MYCNF=$(pwd)/my.cnf
 DATADIR=$(pwd)/data
 SOCKET=$(pwd)/socket
 
+if [ ! -f "${MYCNF}" ]; then
+    cat > "${MYCNF}" <<EOF
+[mysqld]
+general_log = ON
+log_output = TABLE
+EOF
+fi
+
 DEFAULTS_OPT=--no-defaults
 DATADIR_OPT=--datadir="${DATADIR}"
 
