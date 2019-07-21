@@ -1,3 +1,8 @@
+2019-07-21  Allen D. Ball  <ball@sol.local>
+
+	* src/main/resources/templates/browserupgrade.html:
+	Initial writing.
+
 2019-06-20  Allen D. Ball  <ball@sol.local>
 
 	* etc/mysqld-run.sh: Initial writing.
