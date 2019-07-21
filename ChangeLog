@@ -14,7 +14,7 @@
 
 	* pom.xml: Released version 1.2.2.
 
-	* src/main/java/ball/spring/HTML5Template.java:
+	* src/main/java/ball/spring/HTML5Controller.java:
 	Provide RequireJS.getSetupJavaScript("/webjars/") at
 	/js/webjars.js.
 
@@ -28,35 +28,18 @@
 
 	* pom.xml: Released version 1.2.0.
 
-	* Compacted HTML5Template.html into a single template.
-	HTML5Template subclass implementors may optionally provide
-	::head/meta, ::head/link, ::head/style, ::head/script,
-	::body/header[0], ::body/main[0], ::body/aside[0],
-	::body/footer[0], and ::body/script.
-
 2019-04-11  Allen D. Ball  <ball@sol.local>
 
-	* src/main/java/ball/spring/HTML5Template.java:
+	* src/main/java/ball/spring/HTML5Controller.java:
 	Set SpringResourceTemplateResolver.setUseDecoupledLogic(true).
 
 2019-04-09  Allen D. Ball  <ball@sol.local>
-
-	* src/main/resources/templates/google-adsense.html,
-	src/main/resources/templates/google-analytics.html:
-	Separated from (but still include in) HTML5Template.
 
 	* pom.xml: Started development of 1.2-SNAPSHOT.
 
 2019-04-06  Allen D. Ball  <ball@sol.local>
 
 	* pom.xml: Released version 1.1.0.
-
-	* Re-factored HTML5Template to provide *only* semantic HTML5.
-
-2019-04-04  Allen D. Ball  <ball@sol.local>
-
-	* src/main/resources/templates/HTML5Template.html:
-	Modularized into component resources.
 
 2019-04-01  Allen D. Ball  <ball@sol.local>
 
