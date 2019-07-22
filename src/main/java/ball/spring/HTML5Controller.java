@@ -56,7 +56,7 @@ public abstract class HTML5Controller {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/js/webjars.js",
+    @RequestMapping(value = "/webjarsjs",
                     produces = "application/javascript")
     public String wbejarsjs() {
         return RequireJS.getSetupJavaScript("/webjars/");
