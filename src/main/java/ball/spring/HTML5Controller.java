@@ -13,8 +13,10 @@ import lombok.ToString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -37,6 +39,15 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public abstract class HTML5Controller {
     private static final Logger LOGGER = LogManager.getLogger();
 
+    @Value("${stylesheets:}")
+    private String[] stylesheets = null;
+
+    @Value("${style:#{null}}")
+    private String style = null;
+
+    @Value("${scripts:}")
+    private String[] scripts = null;
+
     @Autowired
     private SpringResourceTemplateResolver resolver = null;
 
@@ -54,6 +65,15 @@ public abstract class HTML5Controller {
     protected String view() {
         return getClass().getPackage().getName().replaceAll("[.]", "-");
     }
+
+    @ModelAttribute("stylesheets")
+    public String[] stylesheets() { return stylesheets; }
+
+    @ModelAttribute("style")
+    public String style() { return style; }
+
+    @ModelAttribute("scripts")
+    public String[] scripts() { return scripts; }
 
     @ResponseBody
     @RequestMapping(value = "/webjarsjs",

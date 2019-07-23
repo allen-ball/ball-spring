@@ -1,3 +1,9 @@
+2019-07-23  Allen D. Ball  <ball@sol.local>
+
+	* src/main/java/ball/spring/HTML5Controller.java:
+	Interim check-in: Provide stylesheets, style, and scripts model
+	attributes populated from corresponding application properties.
+
 2019-07-21  Allen D. Ball  <ball@sol.local>
 
 	* src/main/resources/templates/browserupgrade.html:
