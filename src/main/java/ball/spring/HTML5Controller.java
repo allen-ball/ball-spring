@@ -47,11 +47,11 @@ public abstract class HTML5Controller {
     public void destroy() { }
 
     /**
-     * Method to get the name of the corresponding template.
+     * Method to get the view name.
      *
-     * @return  The template name.
+     * @return  The view name.
      */
-    protected String template() {
+    protected String view() {
         return getClass().getPackage().getName().replaceAll("[.]", "-");
     }
 
@@ -68,7 +68,7 @@ public abstract class HTML5Controller {
                                   NoSuchElementException exception) {
         populate(model, exception);
 
-        return template();
+        return view();
     }
 
     @ExceptionHandler
@@ -77,7 +77,7 @@ public abstract class HTML5Controller {
                                               Exception exception) {
         populate(model, exception);
 
-        return template();
+        return view();
     }
 
     private void populate(Model model, Exception exception) {
