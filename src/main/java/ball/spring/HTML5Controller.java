@@ -57,15 +57,6 @@ public abstract class HTML5Controller {
     @PreDestroy
     public void destroy() { }
 
-    /**
-     * Method to get the view name.
-     *
-     * @return  The view name.
-     */
-    protected String view() {
-        return getClass().getPackage().getName().replaceAll("[.]", "-");
-    }
-
     @ModelAttribute("stylesheets")
     public String[] stylesheets() { return stylesheets; }
 
@@ -82,13 +73,18 @@ public abstract class HTML5Controller {
         return RequireJS.getSetupJavaScript("/webjars/");
     }
 
+    /* org.springframework.web.servlet.RequestToViewNameTranslator */
+    public String getViewName(/* HttpServletRequest request */) {
+        return getClass().getPackage().getName().replaceAll("[.]", "-");
+    }
+
     @ExceptionHandler
     @ResponseStatus(value = NOT_FOUND)
     public String handleNOT_FOUND(Model model,
                                   NoSuchElementException exception) {
         populate(model, exception);
 
-        return view();
+        return getViewName();
     }
 
     @ExceptionHandler
@@ -97,7 +93,7 @@ public abstract class HTML5Controller {
                                               Exception exception) {
         populate(model, exception);
 
-        return view();
+        return getViewName();
     }
 
     private void populate(Model model, Exception exception) {
