@@ -2,12 +2,8 @@
 
 	* src/main/java/ball/spring/HTML5Controller.java:
 	Implemented ErrorController.
-
-2019-07-23  Allen D. Ball  <ball@sol.local>
-
-	* src/main/java/ball/spring/HTML5Controller.java:
-	Interim check-in: Provide stylesheets, style, and scripts model
-	attributes populated from corresponding application properties.
+	Interim check-in: Provide Model attribute default values for
+	templates in corresponding "template.properties" resource.
 
 2019-07-21  Allen D. Ball  <ball@sol.local>
 

@@ -5,7 +5,9 @@
  */
 package ball.spring;
 
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Properties;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.webjars.RequireJS;
 
+import static java.util.stream.Collectors.toMap;
 import static lombok.AccessLevel.PROTECTED;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -40,17 +46,11 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public abstract class HTML5Controller implements ErrorController {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @Value("${stylesheets:}")
-    private String[] stylesheets = null;
-
-    @Value("${style:#{null}}")
-    private String style = null;
-
-    @Value("${scripts:}")
-    private String[] scripts = null;
-
     @Value("${server.error.path:${error.path:/error}}")
     private String errorPath = null;
+
+    @Autowired
+    private ApplicationContext context = null;
 
     @Autowired
     private SpringResourceTemplateResolver resolver = null;
@@ -61,14 +61,29 @@ public abstract class HTML5Controller implements ErrorController {
     @PreDestroy
     public void destroy() { }
 
-    @ModelAttribute("stylesheets")
-    public String[] stylesheets() { return stylesheets; }
+    @ModelAttribute
+    public void addAttributes(Model model) {
+        try {
+            Properties properties = new Properties();
+            String name = resolver.getPrefix() + getViewName() + ".properties";
 
-    @ModelAttribute("style")
-    public String style() { return style; }
+            for (Resource resource : context.getResources(name)) {
+                PropertiesLoaderUtils.fillProperties(properties, resource);
+            }
 
-    @ModelAttribute("scripts")
-    public String[] scripts() { return scripts; }
+            Map<String,Object> map =
+                properties.entrySet()
+                .stream()
+                .collect(toMap(k -> k.getKey().toString(),
+                               v -> v.getValue()));
+
+            model.mergeAttributes(map);
+        } catch (RuntimeException exception) {
+            throw exception;
+        } catch (Exception exception) {
+            throw new IllegalStateException(exception);
+        }
+    }
 
     @ResponseBody
     @RequestMapping(value = "/webjarsjs",
@@ -95,9 +110,7 @@ public abstract class HTML5Controller implements ErrorController {
     @ExceptionHandler
     @ResponseStatus(value = INTERNAL_SERVER_ERROR)
     public String handle(Model model, Exception exception) {
-        model.addAttribute("stylesheets", stylesheets());
-        model.addAttribute("style", style());
-        model.addAttribute("scripts", scripts());
+        addAttributes(model);
 
         model.addAttribute("exception", exception);
 
