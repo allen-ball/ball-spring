@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,7 +37,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
  * @version $Revision$
  */
 @NoArgsConstructor(access = PROTECTED) @ToString
-public abstract class HTML5Controller {
+public abstract class HTML5Controller implements ErrorController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Value("${stylesheets:}")
@@ -47,6 +48,9 @@ public abstract class HTML5Controller {
 
     @Value("${scripts:}")
     private String[] scripts = null;
+
+    @Value("${server.error.path:${error.path:/error}}")
+    private String errorPath = null;
 
     @Autowired
     private SpringResourceTemplateResolver resolver = null;
@@ -73,6 +77,9 @@ public abstract class HTML5Controller {
         return RequireJS.getSetupJavaScript("/webjars/");
     }
 
+    @RequestMapping(value = "${server.error.path:${error.path:/error}}")
+    public String error() { return getViewName(); }
+
     /* org.springframework.web.servlet.RequestToViewNameTranslator */
     public String getViewName(/* HttpServletRequest request */) {
         return getClass().getPackage().getName().replaceAll("[.]", "-");
@@ -82,21 +89,21 @@ public abstract class HTML5Controller {
     @ResponseStatus(value = NOT_FOUND)
     public String handleNOT_FOUND(Model model,
                                   NoSuchElementException exception) {
-        populate(model, exception);
-
-        return getViewName();
+        return handle(model, exception);
     }
 
     @ExceptionHandler
     @ResponseStatus(value = INTERNAL_SERVER_ERROR)
-    public String handleINTERNAL_SERVER_ERROR(Model model,
-                                              Exception exception) {
-        populate(model, exception);
+    public String handle(Model model, Exception exception) {
+        model.addAttribute("stylesheets", stylesheets());
+        model.addAttribute("style", style());
+        model.addAttribute("scripts", scripts());
+
+        model.addAttribute("exception", exception);
 
         return getViewName();
     }
 
-    private void populate(Model model, Exception exception) {
-        model.addAttribute("exception", exception);
-    }
+    @Override
+    public String getErrorPath() { return errorPath; }
 }
