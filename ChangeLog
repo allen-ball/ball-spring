@@ -1,5 +1,7 @@
 2019-07-24  Allen D. Ball  <ball@sol.local>
 
+	* pom.xml: Released version 1.3.0.
+
 	* src/main/java/ball/spring/HTML5Controller.java:
 	Added support for View default attribute values specified in
 	corresponding "view.properties" resource "next" to the "view.html"
