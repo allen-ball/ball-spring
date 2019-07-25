@@ -1,9 +1,9 @@
 2019-07-24  Allen D. Ball  <ball@sol.local>
 
 	* src/main/java/ball/spring/HTML5Controller.java:
-	Implemented ErrorController.
-	Interim check-in: Provide Model attribute default values for
-	templates in corresponding "template.properties" resource.
+	Added support for View default attribute values specified in
+	corresponding "view.properties" resource "next" to the "view.html"
+	Thymeleaf template.
 
 2019-07-21  Allen D. Ball  <ball@sol.local>
 
