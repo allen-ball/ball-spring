@@ -30,6 +30,9 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.webjars.RequireJS;
 
 import static lombok.AccessLevel.PROTECTED;
+import static org.apache.commons.lang3.StringUtils.appendIfMissingIgnoreCase;
+import static org.apache.commons.lang3.StringUtils.prependIfMissingIgnoreCase;
+import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -72,15 +75,15 @@ public abstract class HTML5Controller implements ErrorController {
         model.mergeAttributes(defaults.asMap());
     }
 
-    private Model computeDefaultModel(String viewName) {
+    private Model computeDefaultModel(String name) {
         BindingAwareModelMap model = new BindingAwareModelMap();
 
         try {
-            Resource[] resources =
-                context.getResources(resolver.getPrefix()
-                                     + viewName + ".properties");
+            name = prependIfMissingIgnoreCase(name, resolver.getPrefix());
+            name = removeEndIgnoreCase(name, resolver.getSuffix());
+            name = appendIfMissingIgnoreCase(name, ".model.properties");
 
-            new PropertiesFactory(resources).getObject()
+            new PropertiesFactory(context.getResources(name)).getObject()
                 .entrySet()
                 .forEach(t -> model.put(t.getKey().toString(), t.getValue()));
         } catch (RuntimeException exception) {
