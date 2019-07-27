@@ -1,5 +1,7 @@
 2019-07-27  Allen D. Ball  <ball@sol.local>
 
+	* Renamed HTML5Controller to AbstractController.
+
 	* pom.xml: Started development of 1.4-SNAPSHOT.
 
 2019-07-25  Allen D. Ball  <ball@sol.local>

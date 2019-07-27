@@ -37,7 +37,13 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 /**
- * UI {@link org.springframework.stereotype.Controller} abstract base class
+ * Abstract {@link org.springframework.stereotype.Controller} base class.
+ * Implements {@link ErrorController}, implements {@link #getViewName()}
+ * (with
+ * {@code getClass().getPackage().getName().replaceAll("[.]", "-")}),
+ * provides {@link #addDefaultModelAttributesTo(Model)} from corresponding
+ * {@code template.model.properties}, and configures
+ * {@link SpringResourceTemplateResolver} to use decoupled logic.
  *
  * {@injected.fields}
  *
@@ -45,7 +51,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
  * @version $Revision$
  */
 @NoArgsConstructor(access = PROTECTED) @ToString
-public abstract class HTML5Controller implements ErrorController {
+public abstract class AbstractController implements ErrorController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Value("${server.error.path:${error.path:/error}}")
@@ -66,8 +72,13 @@ public abstract class HTML5Controller implements ErrorController {
     @PreDestroy
     public void destroy() { }
 
+    /* org.springframework.web.servlet.RequestToViewNameTranslator */
+    public String getViewName(/* HttpServletRequest request */) {
+        return getClass().getPackage().getName().replaceAll("[.]", "-");
+    }
+
     @ModelAttribute
-    public void addAttributes(Model model) {
+    public void addDefaultModelAttributesTo(Model model) {
         Model defaults =
             viewDefaultModelMap.computeIfAbsent(getViewName(),
                                                 k -> computeDefaultModel(k));
@@ -105,11 +116,6 @@ public abstract class HTML5Controller implements ErrorController {
     @RequestMapping(value = "${server.error.path:${error.path:/error}}")
     public String error() { return getViewName(); }
 
-    /* org.springframework.web.servlet.RequestToViewNameTranslator */
-    public String getViewName(/* HttpServletRequest request */) {
-        return getClass().getPackage().getName().replaceAll("[.]", "-");
-    }
-
     @ExceptionHandler
     @ResponseStatus(value = NOT_FOUND)
     public String handleNOT_FOUND(Model model,
@@ -120,7 +126,7 @@ public abstract class HTML5Controller implements ErrorController {
     @ExceptionHandler
     @ResponseStatus(value = INTERNAL_SERVER_ERROR)
     public String handle(Model model, Exception exception) {
-        addAttributes(model);
+        addDefaultModelAttributesTo(model);
 
         model.addAttribute("exception", exception);
 
