@@ -5,7 +5,9 @@
  */
 package ball.spring;
 
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentSkipListMap;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -30,9 +32,9 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.webjars.RequireJS;
 
 import static lombok.AccessLevel.PROTECTED;
-import static org.apache.commons.lang3.StringUtils.appendIfMissingIgnoreCase;
-import static org.apache.commons.lang3.StringUtils.prependIfMissingIgnoreCase;
-import static org.apache.commons.lang3.StringUtils.removeEndIgnoreCase;
+import static org.apache.commons.lang3.StringUtils.appendIfMissing;
+import static org.apache.commons.lang3.StringUtils.prependIfMissing;
+import static org.apache.commons.lang3.StringUtils.removeEnd;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -63,7 +65,7 @@ public abstract class AbstractController implements ErrorController {
     @Autowired
     private SpringResourceTemplateResolver resolver = null;
 
-    private ConcurrentSkipListMap<String,Model> viewDefaultModelMap =
+    private ConcurrentSkipListMap<String,Properties> viewDefaultAttributesMap =
         new ConcurrentSkipListMap<>();
 
     @PostConstruct
@@ -79,31 +81,50 @@ public abstract class AbstractController implements ErrorController {
 
     @ModelAttribute
     public void addDefaultModelAttributesTo(Model model) {
-        Model defaults =
-            viewDefaultModelMap.computeIfAbsent(getViewName(),
-                                                k -> computeDefaultModel(k));
+        BindingAwareModelMap defaults = new BindingAwareModelMap();
+        Properties properties =
+            viewDefaultAttributesMap
+            .computeIfAbsent(getViewName(), k -> getDefaultAttributesFor(k));
+
+        for (Map.Entry<Object,Object> entry : properties.entrySet()) {
+            String key = entry.getKey().toString();
+            String value = entry.getValue().toString();
+
+            while (value != null) {
+                String unresolved = value;
+
+                value =
+                    context.getEnvironment().resolvePlaceholders(unresolved);
+
+                if (unresolved.equals(value)) {
+                    break;
+                }
+            }
+
+            defaults.put(key, value);
+        }
 
         model.mergeAttributes(defaults.asMap());
     }
 
-    private Model computeDefaultModel(String name) {
-        BindingAwareModelMap model = new BindingAwareModelMap();
+    private Properties getDefaultAttributesFor(String name) {
+        Properties properties = null;
 
         try {
-            name = prependIfMissingIgnoreCase(name, resolver.getPrefix());
-            name = removeEndIgnoreCase(name, resolver.getSuffix());
-            name = appendIfMissingIgnoreCase(name, ".model.properties");
+            name = prependIfMissing(name, resolver.getPrefix());
+            name = removeEnd(name, resolver.getSuffix());
+            name = appendIfMissing(name, ".model.properties");
 
-            new PropertiesFactory(context.getResources(name)).getObject()
-                .entrySet()
-                .forEach(t -> model.put(t.getKey().toString(), t.getValue()));
+            properties =
+                new PropertiesFactory(context.getResources(name))
+                .getObject();
         } catch (RuntimeException exception) {
             throw exception;
         } catch (Exception exception) {
             throw new IllegalStateException(exception);
         }
 
-        return model;
+        return properties;
     }
 
     @ResponseBody

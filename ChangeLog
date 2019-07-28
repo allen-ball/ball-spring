@@ -1,3 +1,8 @@
+2019-07-28  Allen D. Ball  <ball@sol.local>
+
+	* src/main/java/ball/spring/AbstractController.java:
+	Expand placeholders in *.model.properties.
+
 2019-07-27  Allen D. Ball  <ball@sol.local>
 
 	* Renamed HTML5Controller to AbstractController.
