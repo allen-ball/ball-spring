@@ -7,8 +7,8 @@ package ball.spring.mysqld;
 
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,10 +28,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  */
 @Component
 @ConditionalOnBean(name = { "mysqld" })
-@NoArgsConstructor @ToString
+@NoArgsConstructor @ToString @Log4j2
 public class MysqldComponent {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     @Autowired private Process mysqld;
 
     @Scheduled(fixedRate = 15 * 1000)

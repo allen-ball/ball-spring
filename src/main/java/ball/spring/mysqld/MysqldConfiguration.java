@@ -13,8 +13,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -35,10 +35,8 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
  */
 @Configuration
 @ConditionalOnProperty(name = "mysqld.home", havingValue = EMPTY)
-@NoArgsConstructor @ToString
+@NoArgsConstructor @ToString @Log4j2
 public class MysqldConfiguration {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     @Value("${mysqld.home}")
     private File home;
 
