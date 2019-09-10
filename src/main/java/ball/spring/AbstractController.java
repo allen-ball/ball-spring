@@ -125,6 +125,11 @@ public abstract class AbstractController implements ErrorController {
         return properties;
     }
 
+    /**
+     * See {@link RequireJS#getSetupJavaScript(String)}.
+     *
+     * @return  The set-up javascript.
+     */
     @ResponseBody
     @RequestMapping(value = "/webjarsjs",
                     produces = "application/javascript")
