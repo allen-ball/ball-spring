@@ -13,8 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -35,10 +34,8 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
  */
 @Configuration
 @ConditionalOnProperty(name = "mysqld.home", havingValue = EMPTY)
-@NoArgsConstructor @ToString
+@NoArgsConstructor @ToString @Log4j2
 public class MysqldConfiguration {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     @Value("${mysqld.home}")
     private File home;
 
@@ -57,86 +54,88 @@ public class MysqldConfiguration {
     @Value("${logging.path}/mysqld.log")
     private File console;
 
-    private Process mysqld = null;
+    private volatile Process mysqld = null;
 
     @PostConstruct
     public void init() { }
 
     @Bean
     public Process mysqld() throws IOException {
-        synchronized (this) {
-            if (mysqld == null) {
-                Files.createDirectories(home.toPath());
-                Files.createDirectories(datadir.toPath().getParent());
-                Files.createDirectories(console.toPath().getParent());
+        if (mysqld == null) {
+            synchronized (this) {
+                if (mysqld == null) {
+                    Files.createDirectories(home.toPath());
+                    Files.createDirectories(datadir.toPath().getParent());
+                    Files.createDirectories(console.toPath().getParent());
 
-                String defaultsArg = "--no-defaults";
+                    String defaultsArg = "--no-defaults";
 
-                if (defaults.exists()) {
-                    defaultsArg =
-                        "--defaults-file=" + defaults.getAbsolutePath();
-                }
-
-                String datadirArg = "--datadir=" + datadir.getAbsolutePath();
-                String socketArg = "--socket=" + socket.getAbsolutePath();
-                String portArg = "--port=" + port;
-
-                if (! datadir.exists()) {
-                    try {
-                        new ProcessBuilder("mysqld",
-                                           defaultsArg, datadirArg,
-                                           "--initialize-insecure")
-                            .directory(home)
-                            .inheritIO()
-                            .redirectOutput(Redirect.to(console))
-                            .redirectErrorStream(true)
-                            .start()
-                            .waitFor();
-                    } catch (InterruptedException exception) {
+                    if (defaults.exists()) {
+                        defaultsArg =
+                            "--defaults-file=" + defaults.getAbsolutePath();
                     }
-                }
 
-                if (datadir.exists()) {
-                    socket.delete();
+                    String datadirArg = "--datadir=" + datadir.getAbsolutePath();
+                    String socketArg = "--socket=" + socket.getAbsolutePath();
+                    String portArg = "--port=" + port;
 
-                    mysqld =
-                        new ProcessBuilder("mysqld",
-                                           defaultsArg, datadirArg,
-                                           socketArg, portArg)
-                        .directory(home)
-                        .inheritIO()
-                        .redirectOutput(Redirect.appendTo(console))
-                        .redirectErrorStream(true)
-                        .start();
-
-                    while (! socket.exists()) {
+                    if (! datadir.exists()) {
                         try {
-                            mysqld.waitFor(15, SECONDS);
+                            new ProcessBuilder("mysqld",
+                                               defaultsArg, datadirArg,
+                                               "--initialize-insecure")
+                                .directory(home)
+                                .inheritIO()
+                                .redirectOutput(Redirect.to(console))
+                                .redirectErrorStream(true)
+                                .start()
+                                .waitFor();
                         } catch (InterruptedException exception) {
                         }
-
-                        if (mysqld.isAlive()) {
-                            continue;
-                        } else {
-                            throw new IllegalStateException("mysqld not started");
-                        }
                     }
-                    /*
-                     * try {
-                     *     new ProcessBuilder("mysql_upgrade",
-                     *                        defaultsArg, socketArg,
-                     *                        "--user=root")
-                     *     .directory(home)
-                     *     .inheritIO()
-                     *     .redirectOutput(Redirect.appendTo(console))
-                     *     .redirectErrorStream(true)
-                     *     .start()
-                     *     .waitFor();
-                     * } catch (InterruptedException exception) {
-                     * }
-                     */
-                } else {
-                    throw new IllegalStateException("mysqld datadir does not exist");
+
+                    if (datadir.exists()) {
+                        socket.delete();
+
+                        mysqld =
+                            new ProcessBuilder("mysqld",
+                                               defaultsArg, datadirArg,
+                                               socketArg, portArg)
+                            .directory(home)
+                            .inheritIO()
+                            .redirectOutput(Redirect.appendTo(console))
+                            .redirectErrorStream(true)
+                            .start();
+
+                        while (! socket.exists()) {
+                            try {
+                                mysqld.waitFor(15, SECONDS);
+                            } catch (InterruptedException exception) {
+                            }
+
+                            if (mysqld.isAlive()) {
+                                continue;
+                            } else {
+                                throw new IllegalStateException("mysqld not started");
+                            }
+                        }
+                        /*
+                         * try {
+                         *     new ProcessBuilder("mysql_upgrade",
+                         *                        defaultsArg, socketArg,
+                         *                        "--user=root")
+                         *     .directory(home)
+                         *     .inheritIO()
+                         *     .redirectOutput(Redirect.appendTo(console))
+                         *     .redirectErrorStream(true)
+                         *     .start()
+                         *     .waitFor();
+                         * } catch (InterruptedException exception) {
+                         * }
+                         */
+                    } else {
+                        throw new IllegalStateException("mysqld datadir does not exist");
+                    }
                 }
             }
         }

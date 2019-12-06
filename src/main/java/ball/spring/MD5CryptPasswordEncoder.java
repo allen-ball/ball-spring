@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright 2018 Allen D. Ball.  All rights reserved.
+ * Copyright 2018, 2019 Allen D. Ball.  All rights reserved.
  */
 package ball.spring;
 
@@ -9,8 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Random;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,10 +25,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * @author {@link.uri mailto:ball@hcf.dev Allen D. Ball}
  * @version $Revision$
  */
-@Service
+@Service @Log4j2
 public class MD5CryptPasswordEncoder extends DelegatingPasswordEncoder {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     private static final String MD5_CRYPT = "MD5-CRYPT";
     private static final HashMap<String,PasswordEncoder> MAP = new HashMap<>();
 

@@ -13,8 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
@@ -52,10 +51,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
  * @author {@link.uri mailto:ball@hcf.dev Allen D. Ball}
  * @version $Revision$
  */
-@NoArgsConstructor(access = PROTECTED) @ToString
+@NoArgsConstructor(access = PROTECTED) @ToString @Log4j2
 public abstract class AbstractController implements ErrorController {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     @Value("${server.error.path:${error.path:/error}}")
     private String errorPath = null;
 
@@ -127,6 +124,11 @@ public abstract class AbstractController implements ErrorController {
         return properties;
     }
 
+    /**
+     * See {@link RequireJS#getSetupJavaScript(String)}.
+     *
+     * @return  The set-up javascript.
+     */
     @ResponseBody
     @RequestMapping(value = "/webjarsjs",
                     produces = "application/javascript")
