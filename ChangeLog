@@ -1,3 +1,9 @@
+2019-12-06  Allen D. Ball  <ball@hcf.dev>
+
+	* pom.xml:
+	Released version 1.4.1.
+	Use ball:parent:20191206.0.
+
 2019-07-29  Allen D. Ball  <ball@sol.local>
 
 	* pom.xml: Released version 1.4.0.
