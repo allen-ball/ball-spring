@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright 2018, 2019 Allen D. Ball.  All rights reserved.
+ * Copyright 2018 - 2020 Allen D. Ball.  All rights reserved.
  */
 package ball.spring.mysqld;
 
@@ -119,20 +119,6 @@ public class MysqldConfiguration {
                                 throw new IllegalStateException("mysqld not started");
                             }
                         }
-                        /*
-                         * try {
-                         *     new ProcessBuilder("mysql_upgrade",
-                         *                        defaultsArg, socketArg,
-                         *                        "--user=root")
-                         *     .directory(home)
-                         *     .inheritIO()
-                         *     .redirectOutput(Redirect.appendTo(console))
-                         *     .redirectErrorStream(true)
-                         *     .start()
-                         *     .waitFor();
-                         * } catch (InterruptedException exception) {
-                         * }
-                         */
                     } else {
                         throw new IllegalStateException("mysqld datadir does not exist");
                     }
