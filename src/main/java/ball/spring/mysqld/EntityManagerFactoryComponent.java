@@ -6,6 +6,7 @@
 package ball.spring.mysqld;
 
 import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.jpa.EntityManagerFactoryDependsOnPostProcessor;
@@ -25,7 +26,7 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
  */
 @Component
 @ConditionalOnProperty(name = "mysqld.home", havingValue = EMPTY)
-@ToString
+@ToString @Log4j2
 public class EntityManagerFactoryComponent
              extends EntityManagerFactoryDependsOnPostProcessor {
     @Autowired private Process mysqld;
