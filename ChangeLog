@@ -1,3 +1,7 @@
+2020-01-30  Allen D. Ball  <ball@hcf.dev>
+
+	* pom.xml: Released version 1.5.0.
+
 2020-01-28  Allen D. Ball  <ball@hcf.dev>
 
 	* pom.xml: Provide net.bytebuddy:byte-buddy:*:jar at runtime.
