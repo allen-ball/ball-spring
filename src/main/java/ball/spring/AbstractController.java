@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright 2018, 2019 Allen D. Ball.  All rights reserved.
+ * Copyright 2018 - 2020 Allen D. Ball.  All rights reserved.
  */
 package ball.spring;
 
@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import lombok.NoArgsConstructor;
@@ -41,7 +42,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
  * Abstract {@link org.springframework.stereotype.Controller} base class.
  * Implements {@link ErrorController}, implements {@link #getViewName()}
  * (with
- * {@code getClass().getPackage().getName().replaceAll("[.]", "-")}),
+ * {@code String.join("-", getClass().getPackage().getName().split(Pattern.quote(".")))}),
  * provides {@link #addDefaultModelAttributesTo(Model)} from corresponding
  * {@code template.model.properties}, and configures
  * {@link SpringResourceTemplateResolver} to use decoupled logic.
@@ -73,7 +74,8 @@ public abstract class AbstractController implements ErrorController {
 
     /* org.springframework.web.servlet.RequestToViewNameTranslator */
     public String getViewName(/* HttpServletRequest request */) {
-        return getClass().getPackage().getName().replaceAll("[.]", "-");
+        return String.join("-",
+                           getClass().getPackage().getName().split(Pattern.quote(".")));
     }
 
     @ModelAttribute

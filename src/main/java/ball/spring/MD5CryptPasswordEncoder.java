@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright 2018, 2019 Allen D. Ball.  All rights reserved.
+ * Copyright 2018 - 2020 Allen D. Ball.  All rights reserved.
  */
 package ball.spring;
 
@@ -9,6 +9,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Random;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
@@ -25,7 +27,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * @author {@link.uri mailto:ball@hcf.dev Allen D. Ball}
  * @version $Revision$
  */
-@Service @Log4j2
+@Service
+@ToString @Log4j2
 public class MD5CryptPasswordEncoder extends DelegatingPasswordEncoder {
     private static final String MD5_CRYPT = "MD5-CRYPT";
     private static final HashMap<String,PasswordEncoder> MAP = new HashMap<>();
@@ -49,9 +52,7 @@ public class MD5CryptPasswordEncoder extends DelegatingPasswordEncoder {
         setDefaultPasswordEncoderForMatches(PasswordEncoderFactories.createDelegatingPasswordEncoder());
     }
 
-    @Override
-    public String toString() { return super.toString(); }
-
+    @NoArgsConstructor @ToString
     private static class NoCrypt implements PasswordEncoder {
         private static final String SALT =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -59,8 +60,6 @@ public class MD5CryptPasswordEncoder extends DelegatingPasswordEncoder {
             "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
         public static final NoCrypt INSTANCE = new NoCrypt();
-
-        public NoCrypt() { }
 
         @Override
         public String encode(CharSequence raw) {
@@ -95,19 +94,15 @@ public class MD5CryptPasswordEncoder extends DelegatingPasswordEncoder {
 
             return buffer.toString();
         }
-
-        @Override
-        public String toString() { return super.toString(); }
     }
 
+    @NoArgsConstructor
     private static class MD5Crypt extends NoCrypt {
         private static final String MD5 = "md5";
         private static final String MAGIC = "$1$";
         private static final int SALT_LENGTH = 8;
 
         public static final MD5Crypt INSTANCE = new MD5Crypt();
-
-        public MD5Crypt() { }
 
         @Override
         public String encode(CharSequence raw) {

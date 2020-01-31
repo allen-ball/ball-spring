@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright 2018, 2019 Allen D. Ball.  All rights reserved.
+ * Copyright 2018 - 2020 Allen D. Ball.  All rights reserved.
  */
 package ball.spring.mysqld;
 
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
- * {@code mysqld} {@link Component}
+ * {@code mysqld} {@link Component}.
  *
  * {@injected.fields}
  *
