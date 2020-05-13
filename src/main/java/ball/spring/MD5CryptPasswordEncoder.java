@@ -111,7 +111,7 @@ public class MD5CryptPasswordEncoder extends DelegatingPasswordEncoder {
         }
     }
 
-    @NoArgsConstructor
+    @NoArgsConstructor @ToString
     private static class MD5Crypt extends NoCrypt {
         private static final String MD5 = "md5";
         private static final String MAGIC = "$1$";
