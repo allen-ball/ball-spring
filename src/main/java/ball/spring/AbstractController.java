@@ -173,7 +173,7 @@ public abstract class AbstractController implements ErrorController {
         return getViewName();
     }
 
-    @Override
+    @Deprecated @Override
     public String getErrorPath() { return errorPath; }
 
     @ToString
