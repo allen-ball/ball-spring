@@ -66,7 +66,7 @@ public class MysqldConfiguration {
     @Value("${mysqld.socket:${mysqld.home}/socket}")
     private File socket;
 
-    @Value("${logging.path}/mysqld.log")
+    @Value("${logging.file.path}/mysqld.log")
     private File console;
 
     private volatile Process mysqld = null;
