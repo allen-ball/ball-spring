@@ -47,7 +47,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
  * @author {@link.uri mailto:ball@hcf.dev Allen D. Ball}
  * @version $Revision$
  */
-@RestController @ResponseBody
+@RestController
+@RequestMapping(value = { "/jig/bean/" })
+@ResponseBody
 @NoArgsConstructor @ToString @Log4j2
 public class BeanRestController implements ApplicationContextAware {
     private ApplicationContext context = null;
@@ -57,15 +59,13 @@ public class BeanRestController implements ApplicationContextAware {
         this.context = context;
     }
 
-    @RequestMapping(method = { GET },
-                    value = { "/jig/{name}.json" },
+    @RequestMapping(method = { GET }, value = { "{name}.json" },
                     produces = APPLICATION_JSON_VALUE)
     public Object json(@PathVariable String name) throws Exception {
         return context.getBean(name);
     }
 
-    @RequestMapping(method = { GET },
-                    value = { "/jig/{name}.xml" },
+    @RequestMapping(method = { GET }, value = { "{name}.xml" },
                     produces = APPLICATION_XML_VALUE)
     public Object xml(@PathVariable String name) throws Exception {
         return context.getBean(name);
