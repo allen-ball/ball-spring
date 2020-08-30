@@ -149,7 +149,7 @@ public abstract class AbstractController implements ErrorController {
     @ResponseBody
     @RequestMapping(value = "/webjarsjs",
                     produces = "application/javascript")
-    public String wbejarsjs() {
+    public String webjarsjs() {
         return RequireJS.getSetupJavaScript("/webjars/");
     }
 
