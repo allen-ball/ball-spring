@@ -20,6 +20,7 @@ package ball.spring;
  * limitations under the License.
  * ##########################################################################
  */
+import ball.spring.dialect.WebJarsDialect;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
@@ -43,6 +44,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.webjars.RequireJS;
 
@@ -76,13 +78,19 @@ public abstract class AbstractController implements ErrorController {
     private ApplicationContext context = null;
 
     @Autowired
+    private SpringTemplateEngine engine = null;
+
+    @Autowired
     private SpringResourceTemplateResolver resolver = null;
 
     private ConcurrentSkipListMap<String,Properties> viewDefaultAttributesMap =
         new ConcurrentSkipListMap<>();
 
     @PostConstruct
-    public void init() { resolver.setUseDecoupledLogic(true); }
+    public void init() {
+        engine.addDialect(new WebJarsDialect());
+        resolver.setUseDecoupledLogic(true);
+    }
 
     @PreDestroy
     public void destroy() { }
