@@ -37,7 +37,8 @@ public class WebJars {
 
     /**
      * Method to convert a WebJar resource path to its corresponding CDN
-     * (URI) path.
+     * (URI) path.  Typical Thymeleaf usage:
+     * {@code @{${#webjars.cdn(#request.scheme, path)}}}.
      *
      * @param   scheme          The {@code URI} scheme.
      * @param   path            The (possibly partial) local path,
