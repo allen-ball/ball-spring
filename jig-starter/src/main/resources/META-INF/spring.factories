@@ -1,0 +1,3 @@
+# $Id$
+org.springframework.boot.autoconfigure.EnableAutoConfiguration:\
+  ball.spring.jig.autoconfigure.AutoConfiguration

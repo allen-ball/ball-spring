@@ -4,7 +4,7 @@
   $Id$
   $HeadURL$
   %%
-  Copyright (C) 2018 - 2020 Allen D. Ball
+  Copyright (C) 2020 Allen D. Ball
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -24,32 +24,37 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <name>Reusable Spring Components (Parent)</name>
+  <name>Ball Spring mysqld Starter</name>
   <description></description>
   <groupId>ball</groupId>
-  <artifactId>ball-spring-parent</artifactId>
-  <version>2.1.0</version>
-  <packaging>pom</packaging>
+  <artifactId>ball-spring-mysqld-starter</artifactId>
+  <packaging>jar</packaging>
   <parent>
     <groupId>ball</groupId>
-    <artifactId>parent</artifactId>
-    <version>20200903.0</version>
-    <relativePath>../ball/parent/pom.xml</relativePath>
+    <artifactId>ball-spring-parent</artifactId>
+    <version>2.1.0</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
-  <inceptionYear>2018</inceptionYear>
-  <licenses>
-    <license>
-      <name>Apache-2.0</name>
-      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <properties>
-    <jse.target>8</jse.target>
-  </properties>
-  <modules>
-    <module>jar</module>
-    <module>jig-starter</module>
-    <module>mysqld-starter</module>
-  </modules>
+  <inceptionYear>2020</inceptionYear>
+  <dependencies verbose="true">
+    <dependency>
+      <groupId>ball</groupId>
+      <artifactId>ball-spring</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-logging</artifactId>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
 </project>
