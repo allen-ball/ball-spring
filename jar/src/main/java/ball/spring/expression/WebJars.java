@@ -20,6 +20,10 @@ package ball.spring.expression;
  * limitations under the License.
  * ##########################################################################
  */
+import ball.annotation.CompileTimeCheck;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
@@ -33,6 +37,12 @@ import org.webjars.WebJarAssetLocator;
  */
 @NoArgsConstructor @ToString @Log4j2
 public class WebJars {
+    @CompileTimeCheck
+    private static final Pattern PATTERN =
+        Pattern.compile("(?is)"
+                        + "(?<prefix>.*" + WebJarAssetLocator.WEBJARS_PATH_PREFIX + ")"
+                        + "(?<path>/.*)");
+
     private WebJarAssetLocator locator = new WebJarAssetLocator();
 
     /**
@@ -41,30 +51,35 @@ public class WebJars {
      * {@code @{${#webjars.cdn(#request.scheme, path)}}}.
      *
      * @param   scheme          The {@code URI} scheme.
-     * @param   path            The (possibly partial) local path,
+     * @param   path            The (possibly partial) path.
      *
      * @return  The CDN URI if one may be constructed; {@code path}
      *          otherwise.
      */
     public String cdn(String scheme, String path) {
         String uri = null;
-        String groupId = (path != null) ? groupId(path) : null;
 
-        if (groupId != null) {
-            uri =
-                String.format("%s://cdn.jsdelivr.net/webjars/%s/%s",
-                              (scheme != null) ? scheme : "http",
-                              groupId, getLocalPath(path));
+        try {
+            String resource = locator.getFullPath(path);
+            String groupId = locator.groupId(resource);
+            Matcher matcher = PATTERN.matcher(resource);
+
+            if (matcher.matches()) {
+                uri =
+                    String.format("%s://cdn.jsdelivr.net/webjars/%s%s",
+                                  (scheme != null) ? scheme : "http",
+                                  groupId, matcher.group("path"));
+            }
+        } catch (Exception exception) {
         }
 
         return (uri != null) ? uri : path;
     }
 
-    private String getLocalPath(String path) {
-        return locator.getFullPath(path).replaceAll("^.*/webjars/", "");
-    }
-
-    private String groupId(String path) {
-        return locator.groupId(locator.getFullPath(path));
-    }
+    /**
+     * See {@link WebJarAssetLocator#getWebJars()}.
+     *
+     * @return  Result of {@link WebJarAssetLocator#getWebJars()} call.
+     */
+    public Map<String,String> getWebJars() { return locator.getWebJars(); }
 }
