@@ -20,11 +20,35 @@ package ball.spring.dialect;
  * limitations under the License.
  * ##########################################################################
  */
-import org.thymeleaf.dialect.AbstractDialect;
-import org.thymeleaf.dialect.IExpressionObjectDialect;
-import org.thymeleaf.expression.IExpressionObjectFactory;
+import ball.annotation.CompileTimeCheck;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
+import org.thymeleaf.IEngineConfiguration;
+import org.thymeleaf.context.IExpressionContext;
+import org.thymeleaf.context.ITemplateContext;
+import org.thymeleaf.dialect.AbstractProcessorDialect;
+import org.thymeleaf.dialect.IExpressionObjectDialect;
+import org.thymeleaf.engine.AttributeName;
+import org.thymeleaf.expression.IExpressionObjectFactory;
+import org.thymeleaf.model.IProcessableElementTag;
+import org.thymeleaf.processor.IProcessor;
+import org.thymeleaf.processor.element.AbstractAttributeTagProcessor;
+import org.thymeleaf.processor.element.IElementTagStructureHandler;
+import org.thymeleaf.standard.expression.IStandardExpression;
+import org.thymeleaf.standard.expression.IStandardExpressionParser;
+import org.thymeleaf.standard.expression.StandardExpressions;
+import org.webjars.WebJarAssetLocator;
+
+import static java.util.stream.Collectors.toSet;
+import static org.thymeleaf.templatemode.TemplateMode.HTML;
 
 /**
  * {@link ball.spring.expression.WebJars} Thymeleaf dialect.
@@ -33,14 +57,150 @@ import lombok.extern.log4j.Log4j2;
  * @version $Revision$
  */
 @ToString @Log4j2
-public class WebJarsDialect extends AbstractDialect implements IExpressionObjectDialect {
-    private final IExpressionObjectFactory FACTORY =
-        new WebJarsExpressionFactory();
+public class WebJarsDialect extends AbstractProcessorDialect
+                            implements IExpressionObjectDialect {
+    private static final String NAME = "WebJars Dialect";
+    private static final String PREFIX = "webjars";
+    private static final int PRECEDENCE = 9999;
 
-    public WebJarsDialect() { super("webjars"); }
+    @CompileTimeCheck
+    private static final Pattern PATTERN =
+        Pattern.compile("(?is)"
+                        + "(?<prefix>.*" + WebJarAssetLocator.WEBJARS_PATH_PREFIX + ")"
+                        + "(?<path>/.*)");
+
+    private static final String LOCAL_FORMAT = "/webjars%s";
+    private static final String CDN_FORMAT =
+        "%s://cdn.jsdelivr.net/webjars/%s%s";
+
+    @Getter(lazy = true)
+    private final IExpressionObjectFactory expressionObjectFactory =
+        new ExpressionObjectFactory();
+
+    /**
+     * Sole constructor.
+     */
+    public WebJarsDialect() { super(NAME, PREFIX, PRECEDENCE); }
 
     @Override
-    public IExpressionObjectFactory getExpressionObjectFactory() {
-        return FACTORY;
+    public Set<IProcessor> getProcessors(String prefix) {
+        Set<IProcessor> set =
+            Stream.of("href", "src")
+            .map(t -> new PathAttributeTagProcessor(prefix, t))
+            .collect(toSet());
+
+        return set;
+    }
+
+    private static String path(WebJarAssetLocator locator,
+                               boolean useCdn, String scheme, String path) {
+        String resource = locator.getFullPath(path);
+        Matcher matcher = PATTERN.matcher(resource);
+
+        if (matcher.matches()) {
+            if (useCdn) {
+                path =
+                    String.format(CDN_FORMAT,
+                                  (scheme != null) ? scheme : "http",
+                                  locator.groupId(resource),
+                                  matcher.group("path"));
+            } else {
+                path =
+                    String.format(LOCAL_FORMAT,
+                                  matcher.group("path"));
+            }
+        }
+
+        return path;
+    }
+
+    @ToString
+    private static class PathAttributeTagProcessor extends AbstractAttributeTagProcessor {
+        private final WebJarAssetLocator locator = new WebJarAssetLocator();
+
+        public PathAttributeTagProcessor(String prefix, String name) {
+            super(HTML, prefix, null, false, name, true, PRECEDENCE, true);
+        }
+
+        @Override
+        protected void doProcess(ITemplateContext context,
+                                 IProcessableElementTag tag,
+                                 AttributeName name, String value,
+                                 IElementTagStructureHandler handler) {
+            IEngineConfiguration configuration = context.getConfiguration();
+            IStandardExpressionParser parser =
+                StandardExpressions.getExpressionParser(configuration);
+            IStandardExpression expression =
+                parser.parseExpression(context, value);
+            String path = (String) expression.execute(context);
+            String scheme =
+                (String)
+                parser.parseExpression(context, "${#request.scheme}")
+                .execute(context);
+
+            try {
+                path = path(locator, true, scheme, path);
+            } catch (IllegalArgumentException exception) {
+            }
+
+            handler.setAttribute(name.getAttributeName(), path);
+        }
+    }
+
+    @NoArgsConstructor @ToString
+    private static class ExpressionObjectFactory implements IExpressionObjectFactory {
+        private final Map<String,Object> map =
+            Collections.singletonMap(PREFIX, new WebJars());
+
+        @Override
+        public Set<String> getAllExpressionObjectNames() {
+            return map.keySet();
+        }
+
+        @Override
+        public Object buildObject(IExpressionContext context, String name) {
+            return (name != null) ? map.get(name) : null;
+        }
+
+        @Override
+        public boolean isCacheable(String name) {
+            return name != null && map.containsKey(name);
+        }
+    }
+
+    /**
+     * {@link WebJars} Thymeleaf dialect expression object implementation.
+     */
+    @NoArgsConstructor @ToString
+    public static class WebJars {
+        private final WebJarAssetLocator locator = new WebJarAssetLocator();
+
+        /**
+         * Method to convert a WebJar resource (partial) path to its
+         * corresponding CDN (URI) path.  Typical Thymeleaf usage:
+         *
+         * {@code @{${#webjars.cdn(#request.scheme, path)}}}.
+         *
+         * @param   scheme          The {@code URI} scheme.
+         * @param   path            The (possibly partial) path.
+         *
+         * @return  The CDN URI if one may be constructed; {@code path}
+         *          otherwise.
+         */
+        public String cdn(String scheme, String path) {
+            try {
+                path = path(locator, false, null, path);
+            } catch (IllegalArgumentException exception) {
+            }
+
+            return path;
+        }
+
+        /**
+         * See {@link WebJarAssetLocator#getWebJars()}.
+         *
+         * @return  Result of {@link WebJarAssetLocator#getWebJars()} call.
+         */
+        public Map<String,String> getJars() { return locator.getWebJars(); }
     }
 }
