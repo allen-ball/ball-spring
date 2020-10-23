@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
@@ -48,6 +49,7 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
  * @version $Revision$
  */
 @Configuration
+@EnableScheduling
 @ConditionalOnProperty(name = "mysqld.home", havingValue = EMPTY)
 @NoArgsConstructor @ToString @Log4j2
 public class MysqldConfiguration {
