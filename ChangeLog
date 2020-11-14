@@ -1,3 +1,8 @@
+2020-11-13  Allen D. Ball  <ball@hcf.dev>
+
+	* jar/src/main/java/ball/spring/dialect/WebJarsDialect.java:
+	FIX: groupId will always be null in a shaded JAR.
+
 2020-09-12  Allen D. Ball  <ball@hcf.dev>
 
 	* jar/src/main/java/ball/spring/dialect/WebJarsDialect.java:

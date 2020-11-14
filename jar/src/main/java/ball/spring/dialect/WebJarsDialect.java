@@ -102,12 +102,16 @@ public class WebJarsDialect extends AbstractProcessorDialect
         Matcher matcher = PATTERN.matcher(resource);
 
         if (matcher.matches()) {
-            if (useCdn) {
+            /*
+             * FIX: groupId will always be null in a shaded JAR.
+             */
+            String groupId = locator.groupId(resource);
+
+            if (useCdn && groupId != null) {
                 path =
                     String.format(CDN_FORMAT,
                                   (scheme != null) ? scheme : "http",
-                                  locator.groupId(resource),
-                                  matcher.group("path"));
+                                  groupId, matcher.group("path"));
             } else {
                 path =
                     String.format(LOCAL_FORMAT,
