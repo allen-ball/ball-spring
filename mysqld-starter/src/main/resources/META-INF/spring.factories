@@ -1,0 +1,3 @@
+# $Id: spring.factories 6296 2020-07-01 15:30:09Z ball $
+org.springframework.boot.autoconfigure.EnableAutoConfiguration:\
+  ball.spring.mysqld.autoconfigure.AutoConfiguration
