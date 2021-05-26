@@ -24,7 +24,7 @@ import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.data.jpa.EntityManagerFactoryDependsOnPostProcessor;
+import org.springframework.boot.autoconfigure.orm.jpa.EntityManagerFactoryDependsOnPostProcessor;
 import org.springframework.stereotype.Component;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
@@ -32,7 +32,7 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 /**
  * {@link EntityManagerFactoryDependsOnPostProcessor} {@link Component}
  * implementation.  See
- * {@link.uri https://docs.spring.io/spring-boot/docs/current/reference/html/howto-data-access.html#howto-configure-a-component-that-is-used-by-JPA target=newtab Configure a Component that is Used by JPA}.
+ * {@link.uri https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.data-access.configure-a-component-that-is-used-by-jpa target=newtab Configure a Component that is Used by JPA}.
  *
  * {@injected.fields}
  *
@@ -42,8 +42,7 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 @Component
 @ConditionalOnProperty(name = "mysqld.home", havingValue = EMPTY)
 @ToString @Log4j2
-public class EntityManagerFactoryComponent
-             extends EntityManagerFactoryDependsOnPostProcessor {
+public class EntityManagerFactoryComponent extends EntityManagerFactoryDependsOnPostProcessor {
     @Autowired private Process mysqld;
 
     /**
