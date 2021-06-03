@@ -181,9 +181,6 @@ public abstract class AbstractController implements ErrorController {
         return getViewName();
     }
 
-    @Deprecated @Override
-    public String getErrorPath() { return errorPath; }
-
     @ToString
     private class PropertiesFactory extends PropertiesFactoryBean {
         public PropertiesFactory(Resource[] resources) {
