@@ -2,10 +2,8 @@ package ball.spring.jig;
 /*-
  * ##########################################################################
  * Reusable Spring Components
- * $Id$
- * $HeadURL$
  * %%
- * Copyright (C) 2018 - 2021 Allen D. Ball
+ * Copyright (C) 2018 - 2022 Allen D. Ball
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +43,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
  * {@injected.fields}
  *
  * @author {@link.uri mailto:ball@hcf.dev Allen D. Ball}
- * @version $Revision$
  */
 @RestController
 @RequestMapping(value = { "/jig/bean/" })
@@ -59,22 +56,17 @@ public class BeanRestController implements ApplicationContextAware {
         this.context = context;
     }
 
-    @RequestMapping(method = { GET }, value = { "{name}.json" },
-                    produces = APPLICATION_JSON_VALUE)
+    @RequestMapping(method = { GET }, value = { "{name}.json" }, produces = APPLICATION_JSON_VALUE)
     public Object json(@PathVariable String name) throws Exception {
         return context.getBean(name);
     }
 
-    @RequestMapping(method = { GET }, value = { "{name}.xml" },
-                    produces = APPLICATION_XML_VALUE)
+    @RequestMapping(method = { GET }, value = { "{name}.xml" }, produces = APPLICATION_XML_VALUE)
     public Object xml(@PathVariable String name) throws Exception {
         return context.getBean(name);
     }
 
-    @ExceptionHandler({
-                           NoSuchBeanDefinitionException.class,
-                               NoSuchElementException.class
-                     })
+    @ExceptionHandler({ NoSuchBeanDefinitionException.class, NoSuchElementException.class })
     @ResponseStatus(value = NOT_FOUND, reason = "Resource not found")
     public void handleNOT_FOUND() { }
 }

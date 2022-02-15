@@ -2,10 +2,8 @@ package ball.spring.dialect;
 /*-
  * ##########################################################################
  * Reusable Spring Components
- * $Id$
- * $HeadURL$
  * %%
- * Copyright (C) 2018 - 2021 Allen D. Ball
+ * Copyright (C) 2018 - 2022 Allen D. Ball
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,11 +56,9 @@ import static org.thymeleaf.templatemode.TemplateMode.HTML;
  * {@link WebJarAssetLocator} Thymeleaf dialect.
  *
  * @author {@link.uri mailto:ball@hcf.dev Allen D. Ball}
- * @version $Revision$
  */
 @ToString @Log4j2
-public class WebJarsDialect extends AbstractProcessorDialect
-                            implements IExpressionObjectDialect {
+public class WebJarsDialect extends AbstractProcessorDialect implements IExpressionObjectDialect {
     private static final String NAME = "WebJars Dialect";
     private static final String PREFIX = "webjars";
     private static final int PRECEDENCE = 9999;
@@ -74,12 +70,10 @@ public class WebJarsDialect extends AbstractProcessorDialect
                         + "(?<path>/.*)");
 
     private static final String LOCAL_FORMAT = "/webjars%s";
-    private static final String CDN_FORMAT =
-        "%s://cdn.jsdelivr.net/webjars/%s%s";
+    private static final String CDN_FORMAT = "%s://cdn.jsdelivr.net/webjars/%s%s";
 
     @Getter(lazy = true)
-    private final IExpressionObjectFactory expressionObjectFactory =
-        new ExpressionObjectFactory();
+    private final IExpressionObjectFactory expressionObjectFactory = new ExpressionObjectFactory();
 
     /**
      * Sole constructor.
@@ -108,14 +102,9 @@ public class WebJarsDialect extends AbstractProcessorDialect
             String groupId = locator.groupId(resource);
 
             if (useCdn && groupId != null) {
-                path =
-                    String.format(CDN_FORMAT,
-                                  (scheme != null) ? scheme : "http",
-                                  groupId, matcher.group("path"));
+                path = String.format(CDN_FORMAT, (scheme != null) ? scheme : "http", groupId, matcher.group("path"));
             } else {
-                path =
-                    String.format(LOCAL_FORMAT,
-                                  matcher.group("path"));
+                path = String.format(LOCAL_FORMAT, matcher.group("path"));
             }
         }
 
@@ -131,20 +120,12 @@ public class WebJarsDialect extends AbstractProcessorDialect
         }
 
         @Override
-        protected void doProcess(ITemplateContext context,
-                                 IProcessableElementTag tag,
-                                 AttributeName name, String value,
-                                 IElementTagStructureHandler handler) {
+        protected void doProcess(ITemplateContext context, IProcessableElementTag tag, AttributeName name, String value, IElementTagStructureHandler handler) {
             IEngineConfiguration configuration = context.getConfiguration();
-            IStandardExpressionParser parser =
-                StandardExpressions.getExpressionParser(configuration);
-            IStandardExpression expression =
-                parser.parseExpression(context, value);
+            IStandardExpressionParser parser = StandardExpressions.getExpressionParser(configuration);
+            IStandardExpression expression = parser.parseExpression(context, value);
             String path = (String) expression.execute(context);
-            String scheme =
-                (String)
-                parser.parseExpression(context, "${#request.scheme}")
-                .execute(context);
+            String scheme = (String) parser.parseExpression(context, "${#request.scheme}").execute(context);
 
             try {
                 path = path(locator, false, scheme, path);
@@ -157,8 +138,7 @@ public class WebJarsDialect extends AbstractProcessorDialect
 
     @NoArgsConstructor @ToString
     private static class ExpressionObjectFactory implements IExpressionObjectFactory {
-        private final Map<String,Object> map =
-            Collections.singletonMap(PREFIX, new WebJars());
+        private final Map<String,Object> map = Collections.singletonMap(PREFIX, new WebJars());
 
         @Override
         public Set<String> getAllExpressionObjectNames() {
@@ -182,8 +162,7 @@ public class WebJarsDialect extends AbstractProcessorDialect
     @NoArgsConstructor @ToString
     public static class WebJars {
         @CompileTimeCheck
-        private static final Pattern PATTERN =
-            Pattern.compile("(?i)[\\p{Space},]+");
+        private static final Pattern PATTERN = Pattern.compile("(?i)[\\p{Space},]+");
 
         private final WebJarAssetLocator locator = new WebJarAssetLocator();
         private final Set<String> assets = locator.listAssets();
@@ -215,8 +194,7 @@ public class WebJarsDialect extends AbstractProcessorDialect
          *
          * @return  The matching resource paths.
          */
-        public Collection<String> assets(boolean useCdn, String scheme,
-                                         String... patterns) {
+        public Collection<String> assets(boolean useCdn, String scheme, String... patterns) {
             Collection<String> collection =
                 Stream.of(patterns)
                 .flatMap(t -> PATTERN.splitAsStream(t))

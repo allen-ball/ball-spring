@@ -2,10 +2,8 @@ package ball.spring;
 /*-
  * ##########################################################################
  * Reusable Spring Components
- * $Id$
- * $HeadURL$
  * %%
- * Copyright (C) 2018 - 2021 Allen D. Ball
+ * Copyright (C) 2018 - 2022 Allen D. Ball
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +65,6 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
  * {@injected.fields}
  *
  * @author {@link.uri mailto:ball@hcf.dev Allen D. Ball}
- * @version $Revision$
  */
 @NoArgsConstructor(access = PROTECTED) @ToString @Log4j2
 public abstract class AbstractController implements ErrorController {
@@ -83,8 +80,7 @@ public abstract class AbstractController implements ErrorController {
     @Autowired
     private SpringResourceTemplateResolver resolver = null;
 
-    private ConcurrentSkipListMap<String,Properties> viewDefaultAttributesMap =
-        new ConcurrentSkipListMap<>();
+    private ConcurrentSkipListMap<String,Properties> viewDefaultAttributesMap = new ConcurrentSkipListMap<>();
 
     @PostConstruct
     public void init() {
@@ -97,16 +93,14 @@ public abstract class AbstractController implements ErrorController {
 
     /* org.springframework.web.servlet.RequestToViewNameTranslator */
     public String getViewName(/* HttpServletRequest request */) {
-        return String.join("-",
-                           getClass().getPackage().getName().split(Pattern.quote(".")));
+        return String.join("-", getClass().getPackage().getName().split(Pattern.quote(".")));
     }
 
     @ModelAttribute
     public void addDefaultModelAttributesTo(Model model) {
         BindingAwareModelMap defaults = new BindingAwareModelMap();
         Properties properties =
-            viewDefaultAttributesMap
-            .computeIfAbsent(getViewName(), k -> getDefaultAttributesFor(k));
+            viewDefaultAttributesMap.computeIfAbsent(getViewName(), k -> getDefaultAttributesFor(k));
 
         for (Map.Entry<Object,Object> entry : properties.entrySet()) {
             String key = entry.getKey().toString();
@@ -115,8 +109,7 @@ public abstract class AbstractController implements ErrorController {
             while (value != null) {
                 String unresolved = value;
 
-                value =
-                    context.getEnvironment().resolvePlaceholders(unresolved);
+                value = context.getEnvironment().resolvePlaceholders(unresolved);
 
                 if (unresolved.equals(value)) {
                     break;
@@ -137,9 +130,7 @@ public abstract class AbstractController implements ErrorController {
             name = removeEnd(name, resolver.getSuffix());
             name = appendIfMissing(name, ".model.properties");
 
-            properties =
-                new PropertiesFactory(context.getResources(name))
-                .getObject();
+            properties = new PropertiesFactory(context.getResources(name)).getObject();
         } catch (RuntimeException exception) {
             throw exception;
         } catch (Exception exception) {
@@ -155,8 +146,7 @@ public abstract class AbstractController implements ErrorController {
      * @return  The set-up javascript.
      */
     @ResponseBody
-    @RequestMapping(value = "/webjarsjs",
-                    produces = "application/javascript")
+    @RequestMapping(value = "/webjarsjs", produces = "application/javascript")
     public String webjarsjs() {
         return RequireJS.getSetupJavaScript("/webjars/");
     }
@@ -166,8 +156,7 @@ public abstract class AbstractController implements ErrorController {
 
     @ExceptionHandler
     @ResponseStatus(value = NOT_FOUND)
-    public String handleNOT_FOUND(Model model,
-                                  NoSuchElementException exception) {
+    public String handleNOT_FOUND(Model model, NoSuchElementException exception) {
         return handle(model, exception);
     }
 

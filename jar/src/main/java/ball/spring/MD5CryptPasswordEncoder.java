@@ -2,10 +2,8 @@ package ball.spring;
 /*-
  * ##########################################################################
  * Reusable Spring Components
- * $Id$
- * $HeadURL$
  * %%
- * Copyright (C) 2018 - 2021 Allen D. Ball
+ * Copyright (C) 2018 - 2022 Allen D. Ball
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +38,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * {@link.uri https://github.com/dovecot/core/blob/master/src/auth/password-scheme-md5crypt.c target=newtab password-scheme-md5crypt.c}.
  *
  * @author {@link.uri mailto:ball@hcf.dev Allen D. Ball}
- * @version $Revision$
  */
 @Service
 @ToString @Log4j2
@@ -69,10 +66,8 @@ public class MD5CryptPasswordEncoder extends DelegatingPasswordEncoder {
 
     @NoArgsConstructor @ToString
     private static class NoCrypt implements PasswordEncoder {
-        private static final String SALT =
-            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        private static final String ITOA64 =
-            "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        private static final String SALT = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        private static final String ITOA64 = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
         public static final NoCrypt INSTANCE = new NoCrypt();
 
@@ -129,8 +124,7 @@ public class MD5CryptPasswordEncoder extends DelegatingPasswordEncoder {
                 salt = salt.substring(0, SALT_LENGTH);
             }
 
-            return (MAGIC + salt + "$"
-                    + encode(raw.getBytes(UTF_8), salt.getBytes(UTF_8)));
+            return (MAGIC + salt + "$" + encode(raw.getBytes(UTF_8), salt.getBytes(UTF_8)));
         }
 
         private String encode(byte[] password, byte[] salt) {
@@ -209,10 +203,7 @@ public class MD5CryptPasswordEncoder extends DelegatingPasswordEncoder {
         }
 
         private String combine(byte b0, byte b1, byte b2, int size) {
-            return itoa64(((((long) b0) & 0xff) << 16)
-                          | ((((long) b1) & 0xff) << 8)
-                          | (((long) b2) & 0xff),
-                          size);
+            return itoa64(((((long) b0) & 0xff) << 16) | ((((long) b1) & 0xff) << 8) | (((long) b2) & 0xff), size);
         }
 
         @Override

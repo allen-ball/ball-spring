@@ -1,5 +1,5 @@
 #!/bin/bash
-# $Id$
+# mysqld-run.sh
 
 PRG="$0"
 

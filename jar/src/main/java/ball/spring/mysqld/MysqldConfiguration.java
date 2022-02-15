@@ -2,10 +2,8 @@ package ball.spring.mysqld;
 /*-
  * ##########################################################################
  * Reusable Spring Components
- * $Id$
- * $HeadURL$
  * %%
- * Copyright (C) 2018 - 2021 Allen D. Ball
+ * Copyright (C) 2018 - 2022 Allen D. Ball
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +44,6 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
  * {@injected.fields}
  *
  * @author {@link.uri mailto:ball@hcf.dev Allen D. Ball}
- * @version $Revision$
  */
 @Configuration
 @EnableScheduling
@@ -88,8 +85,7 @@ public class MysqldConfiguration {
                     String defaultsArg = "--no-defaults";
 
                     if (defaults.exists()) {
-                        defaultsArg =
-                            "--defaults-file=" + defaults.getAbsolutePath();
+                        defaultsArg = "--defaults-file=" + defaults.getAbsolutePath();
                     }
 
                     String datadirArg = "--datadir=" + datadir.getAbsolutePath();
@@ -98,9 +94,7 @@ public class MysqldConfiguration {
 
                     if (! datadir.exists()) {
                         try {
-                            new ProcessBuilder("mysqld",
-                                               defaultsArg, datadirArg,
-                                               "--initialize-insecure")
+                            new ProcessBuilder("mysqld", defaultsArg, datadirArg, "--initialize-insecure")
                                 .directory(home)
                                 .inheritIO()
                                 .redirectOutput(Redirect.to(console))
@@ -115,9 +109,7 @@ public class MysqldConfiguration {
                         socket.delete();
 
                         mysqld =
-                            new ProcessBuilder("mysqld",
-                                               defaultsArg, datadirArg,
-                                               socketArg, portArg)
+                            new ProcessBuilder("mysqld", defaultsArg, datadirArg, socketArg, portArg)
                             .directory(home)
                             .inheritIO()
                             .redirectOutput(Redirect.appendTo(console))
