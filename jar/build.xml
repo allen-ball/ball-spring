@@ -23,14 +23,14 @@
          name="ball.spring" basedir="." default="jar">
 
   <description>
-    ball.spring
+    ball-spring
     --------------------------
     Reusable Spring Components
   </description>
 
   <resolver:resolve>
     <dependencies>
-      <dependency coords="ball:parent:2022.1.1:xml:compile"/>
+      <dependency coords="ball:parent:2022.1.2-SNAPSHOT:xml:compile"/>
     </dependencies>
     <properties/>
   </resolver:resolve>
