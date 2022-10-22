@@ -7,6 +7,8 @@ Description
 
 Reusable [Spring](https://spring.io/) components.
 
+Javadoc is published at <https://allen-ball.github.io/ball-spring/>.
+
 
 License
 -------
