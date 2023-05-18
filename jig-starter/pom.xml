@@ -30,7 +30,7 @@
   <parent>
     <groupId>dev.hcf.ball</groupId>
     <artifactId>ball-spring-parent</artifactId>
-    <version>2.4.5.20230424</version>
+    <version>2.4.6.20230520</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <inceptionYear>2020</inceptionYear>
