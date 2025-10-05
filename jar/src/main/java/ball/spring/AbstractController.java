@@ -3,7 +3,7 @@ package ball.spring;
  * ##########################################################################
  * Reusable Spring Components
  * %%
- * Copyright (C) 2018 - 2022 Allen D. Ball
+ * Copyright (C) 2018 - 2025 Allen D. Ball
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import javax.annotation.PreDestroy;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
@@ -47,9 +48,6 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.webjars.RequireJS;
 
 import static lombok.AccessLevel.PROTECTED;
-import static org.apache.commons.lang3.StringUtils.appendIfMissing;
-import static org.apache.commons.lang3.StringUtils.prependIfMissing;
-import static org.apache.commons.lang3.StringUtils.removeEnd;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -126,9 +124,9 @@ public abstract class AbstractController implements ErrorController {
         Properties properties = null;
 
         try {
-            name = prependIfMissing(name, resolver.getPrefix());
-            name = removeEnd(name, resolver.getSuffix());
-            name = appendIfMissing(name, ".model.properties");
+            name = Strings.CI.prependIfMissing(name, resolver.getPrefix());
+            name = Strings.CI.removeEnd(name, resolver.getSuffix());
+            name = Strings.CI.appendIfMissing(name, ".model.properties");
 
             properties = new PropertiesFactory(context.getResources(name)).getObject();
         } catch (RuntimeException exception) {
